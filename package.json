@@ -1,0 +1,25 @@
+{
+  "name": "figma-design-tokens-plugin",
+  "version": "0.0.1",
+  "description": "Figma Design Tokens plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinicius-pretto/figma-design-tokens-plugin.git"
+  },
+  "keywords": [
+    "Figma",
+    "Design Tokens",
+    "Design System",
+    "Figma plugin"
+  ],
+  "author": "Vinicius Pretto <vini.prettodasilva@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vinicius-pretto/figma-design-tokens-plugin/issues"
+  },
+  "homepage": "https://github.com/vinicius-pretto/figma-design-tokens-plugin#readme"
+}
