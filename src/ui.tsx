@@ -4,7 +4,11 @@ import "./ui.css";
 
 class App extends React.Component {
   render() {
-    return <h2>Tokens</h2>;
+    return (
+      <div className="container">
+        <h2>Tokens</h2>
+      </div>
+    );
   }
 }
 

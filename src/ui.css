@@ -1,1 +1,46 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v2/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff) format('woff');
+  unicode-range: U+0000-00FF;
+}
 
+:root {
+  --color-dark: #333;
+  --font-family-base: Inter, sans-serif;
+  --font-size-base: 0.875rem;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: var(--font-family-base);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+body {
+  color: var(--color-dark);
+  font-size: var(--font-size-base);
+}
+
+h2 {
+  font-size: inherit;
+}
+
+.container {
+  padding: 0.5rem;
+}
