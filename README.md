@@ -1,8 +1,10 @@
 # Figma Design Tokens plugin
 
+[![licence mit](https://img.shields.io/badge/licence-MIT-blue.svg)](https://github.com/vinicius-pretto/figma-design-tokens-plugin/blob/master/LICENSE.md)
+
 The goal of this project is to give ability to create and export tokens on Figma.
 
-### Running on development environment
+## Running on development environment
 
 **Requirements:**
 
@@ -39,3 +41,7 @@ Choose a name for this plugin and upload the manifest.json
 Now you can run this plugin.
 
 ![Figma plugin](src/img/figma-plugin.png)
+
+## License
+
+[MIT](https://github.com/vinicius-pretto/figma-design-tokens-plugin/blob/master/LICENSE.md)
