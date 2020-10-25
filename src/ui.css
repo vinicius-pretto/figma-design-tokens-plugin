@@ -30,6 +30,8 @@
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
+  --border-radius-base: 4px;
+  --border-radius-circle: 50%;
 }
 
 html {
@@ -62,10 +64,6 @@ h2 {
   font-size: inherit;
 }
 
-.container {
-  padding: 0.5rem;
-}
-
 .navbar {
   padding: var(--spacing-sm) var(--spacing-md);
   border-bottom-width: 1px;
@@ -89,4 +87,44 @@ h2 {
 
 .navbar ul li a.active {
   color: var(--color-dark);
+}
+
+.btn-icon {
+  height: 32px;
+  width: 32px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  border-radius: var(--border-radius-base);
+}
+
+.btn-icon:hover {
+  background-color: var(--color-gray-light);
+}
+
+.tokens-section {
+  padding: var(--spacing-md);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--color-gray-light);
+}
+
+.tokens-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* utils */
+.mg-right-sm {
+  margin-right: var(--spacing-sm);
+}
+
+.mg-top-lg {
+  margin-top: var(--spacing-lg);
+}
+
+.color-gray {
+  color: var(--color-gray);
 }

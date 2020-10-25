@@ -29,10 +29,24 @@ module.exports = (env, argv) => ({
         ],
       },
       {
-        test: /\.(png|jpg|gif|webp|svg|zip)$/,
+        test: /\.(png|jpg|gif|webp)$/,
         loader: [
           {
             loader: "url-loader",
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "babel-loader",
+          },
+          {
+            loader: "react-svg-loader",
+            options: {
+              jsx: true,
+            },
           },
         ],
       },
