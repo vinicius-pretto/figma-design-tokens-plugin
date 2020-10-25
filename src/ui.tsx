@@ -5,9 +5,24 @@ import "./ui.css";
 class App extends React.Component {
   render() {
     return (
-      <div className="container">
-        <h2>Tokens</h2>
-      </div>
+      <nav className="navbar">
+        <ul>
+          <li>
+            <a href="#" className="active">
+              Tokens
+            </a>
+          </li>
+          <li>
+            <a href="#">CSS</a>
+          </li>
+          <li>
+            <a href="#">SCSS</a>
+          </li>
+          <li>
+            <a href="#">JSON</a>
+          </li>
+        </ul>
+      </nav>
     );
   }
 }
