@@ -7,8 +7,8 @@ module.exports = (env, argv) => ({
   // This is necessary because Figma's 'eval' works differently than normal eval
   devtool: argv.mode === "production" ? false : "inline-source-map",
   entry: {
-    ui: "./src/ui.tsx",
-    code: "./src/code.ts",
+    ui: "./src/index.tsx",
+    code: "./src/plugin.ts",
   },
   module: {
     rules: [
@@ -61,7 +61,7 @@ module.exports = (env, argv) => ({
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/ui.html",
+      template: "./src/index.html",
       filename: "ui.html",
       inlineSource: ".(js)$",
       chunks: ["ui"],

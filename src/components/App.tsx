@@ -1,8 +1,7 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import PencilIcon from "./components/icons/PencilIcon";
-import PlusIcon from "./components/icons/PlusIcon";
-import "./ui.css";
+import PencilIcon from "./icons/PencilIcon";
+import PlusIcon from "./icons/PlusIcon";
+import "../styles/main.css";
 
 class App extends React.Component {
   render() {
@@ -53,4 +52,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("react-page"));
+export default App;
