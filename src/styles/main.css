@@ -20,8 +20,10 @@
 
 :root {
   --color-dark: #333;
+  --color-white: #fff;
   --color-gray-light: #e3e1e1;
   --color-gray: #bab6b6;
+  --color-primary: #18a0fb;
   --font-family-base: Inter, sans-serif;
   --font-size-base: 0.75rem;
   --font-weight-normal: 400;
@@ -32,6 +34,12 @@
   --spacing-lg: 1.5rem;
   --border-radius-base: 4px;
   --border-radius-circle: 50%;
+  --z-index-default: 1;
+  --z-index-masked: 100;
+  --z-index-tooltip: 200;
+  --z-index-overlay: 300;
+  --z-index-modal: 400;
+  --z-index-top: 999;
 }
 
 html {
@@ -51,7 +59,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+form {
   margin: 0;
 }
 
@@ -127,4 +136,84 @@ h2 {
 
 .color-gray {
   color: var(--color-gray);
+}
+
+/* modal */
+#modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(51, 51, 51, 0.9);
+  z-index: var(--z-index-overlay);
+}
+
+#modal.active {
+  display: block;
+}
+
+.modal-dialog {
+  position: relative;
+  top: 30%;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--color-white);
+  z-index: var(--z-index-modal);
+}
+
+.modal-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--color-gray-light);
+}
+
+.modal-dialog-body {
+  padding: var(--spacing-md);
+}
+
+.modal-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* input */
+.input-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-dark);
+  font-weight: var(--font-weight-bold);
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-gray);
+  border-radius: var(--border-radius-base);
+  font-size: inherit;
+}
+
+/* btn */
+.btn-primary {
+  height: 32px;
+  min-width: 90px;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--border-radius-base);
+  border: none;
+  cursor: pointer;
 }
