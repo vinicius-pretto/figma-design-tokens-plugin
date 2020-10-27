@@ -69,8 +69,18 @@ body {
   font-size: var(--font-size-base);
 }
 
-h2 {
+h2,
+h3 {
   font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button,
+a {
+  font-family: inherit;
 }
 
 .navbar {
@@ -103,7 +113,6 @@ h2 {
   width: 32px;
   border: none;
   background-color: transparent;
-  cursor: pointer;
   padding: 0;
   border-radius: var(--border-radius-base);
 }
@@ -215,5 +224,26 @@ h2 {
   color: var(--color-white);
   border-radius: var(--border-radius-base);
   border: none;
-  cursor: pointer;
+}
+
+/* color tokens */
+.row {
+  display: flex;
+}
+
+.color-token {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  padding: var(--spacing-sm);
+}
+
+.color-token-shape {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  background-color: var(--color-gray-light);
+  border-radius: var(--border-radius-circle);
+  margin-right: var(--spacing-sm);
 }
