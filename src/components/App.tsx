@@ -1,36 +1,25 @@
 import * as React from "react";
+import { v4 as uuid } from "uuid";
 import PencilIcon from "./icons/PencilIcon";
 import PlusIcon from "./icons/PlusIcon";
 import CloseIcon from "./icons/CloseIcon";
 import "../styles/main.css";
 
+enum TokenType {
+  COLOR = "color",
+}
+
+interface Token {
+  id: string;
+  type: TokenType;
+  name: string;
+  value: string;
+}
+
 const App = () => {
-  const [colorTokens, setColorTokens] = React.useState([
-    {
-      id: "22cb8e4e-7826-4d8f-818e-e039bc994117",
-      type: "color",
-      name: "color-primary",
-      value: "#18a0fb",
-    },
-    {
-      id: "13c91362-e71c-4aa6-9bff-1de159bf2f14",
-      type: "color",
-      name: "color-dark",
-      value: "#333",
-    },
-    {
-      id: "13c91362-e71c-4aa6-9bff-1de159bf2f14",
-      type: "color",
-      name: "color-gray-light",
-      value: "#e3e1e1",
-    },
-    {
-      id: "1db61162-2eff-4ae9-b187-3e12313d2a24",
-      type: "color",
-      name: "color-gray",
-      value: "#bab6b6",
-    },
-  ]);
+  const [tokenName, setTokenName] = React.useState("");
+  const [tokenValue, setTokenValue] = React.useState("");
+  const [colorTokens, setColorTokens] = React.useState([]);
 
   const openModal = () => {
     document.querySelector("#modal").classList.add("active");
@@ -42,12 +31,24 @@ const App = () => {
 
   const onSubmitColorToken = (e: React.FormEvent) => {
     e.preventDefault();
+    const token = {
+      id: uuid(),
+      type: TokenType.COLOR,
+      name: tokenName,
+      value: tokenValue,
+    };
+    const tokens = colorTokens.concat(token);
+
+    closeModal();
+    setTokenName("");
+    setTokenValue("");
+    setColorTokens(tokens);
   };
 
   const renderColorTokens = () => {
     return (
       <div className="row mg-top-lg">
-        {colorTokens.map((colorToken) => (
+        {colorTokens.map((colorToken: Token) => (
           <button key={colorToken.id} className="color-token">
             <span
               className="color-token-shape"
@@ -119,12 +120,22 @@ const App = () => {
             <form className="modal-dialog-body" onSubmit={onSubmitColorToken}>
               <div className="input-group">
                 <label htmlFor="name">Name</label>
-                <input id="name" className="input" />
+                <input
+                  id="name"
+                  className="input"
+                  value={tokenName}
+                  onChange={(e) => setTokenName(e.target.value)}
+                />
               </div>
 
               <div className="input-group">
                 <label htmlFor="value">Value</label>
-                <input id="value" className="input" />
+                <input
+                  id="value"
+                  className="input"
+                  value={tokenValue}
+                  onChange={(e) => setTokenValue(e.target.value)}
+                />
               </div>
 
               <div className="modal-dialog-footer">
