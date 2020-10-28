@@ -18,6 +18,10 @@
   margin-right: var(--spacing-sm);
 }
 
+.mb-md {
+  margin-bottom: var(--spacing-md);
+}
+
 .color-gray {
   color: var(--color-gray);
 }

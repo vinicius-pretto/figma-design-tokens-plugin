@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/vinicius-pretto/figma-design-tokens-plugin#readme",
   "dependencies": {
+    "figma-plugin-ds": "^0.1.8",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "uuid": "^8.3.1"

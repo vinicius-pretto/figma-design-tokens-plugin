@@ -1,5 +1,6 @@
 import * as React from "react";
 import { v4 as uuid } from "uuid";
+import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import PencilIcon from "./icons/PencilIcon";
 import PlusIcon from "./icons/PlusIcon";
 import CloseIcon from "./icons/CloseIcon";
@@ -70,13 +71,16 @@ const App = () => {
               ></span>
               <span className="mr-sm">{colorToken.name}</span>
             </button>
-            <button
+
+            <div
               id={`btn-${colorToken.id}`}
-              type="button"
-              className="btn-icon hidden"
+              className="icon-button"
+              role="button"
+              aria-label="Edit"
+              tabIndex={0}
             >
-              <PencilIcon />
-            </button>
+              <div className="icon icon--adjust"></div>
+            </div>
           </div>
         ))}
       </div>
@@ -109,9 +113,15 @@ const App = () => {
           <div className="tokens-section-header">
             <h3>Colors</h3>
 
-            <button type="button" className="btn-icon" onClick={openModal}>
-              <PlusIcon />
-            </button>
+            <div
+              className="icon-button"
+              role="button"
+              aria-label="Add token"
+              tabIndex={0}
+              onClick={openModal}
+            >
+              <div className="icon icon--plus"></div>
+            </div>
           </div>
 
           {colorTokens.length === 0 ? (
@@ -128,35 +138,41 @@ const App = () => {
             <div className="modal-dialog-header">
               <h2>Colors</h2>
 
-              <button type="button" className="btn-icon" onClick={closeModal}>
-                <CloseIcon />
-              </button>
+              <div
+                className="icon-button"
+                role="button"
+                aria-label="Close"
+                tabIndex={0}
+                onClick={closeModal}
+              >
+                <div className="icon icon--close"></div>
+              </div>
             </div>
 
             <form className="modal-dialog-body" onSubmit={onSubmitColorToken}>
-              <div className="input-group">
-                <label htmlFor="name">Name</label>
+              <div className="input">
                 <input
                   id="name"
-                  className="input"
+                  className="input__field mb-md"
                   value={tokenName}
                   onChange={(e) => setTokenName(e.target.value)}
+                  placeholder="color-primary"
                 />
               </div>
 
-              <div className="input-group">
-                <label htmlFor="value">Value</label>
+              <div className="input">
                 <input
                   id="value"
-                  className="input"
+                  className="input__field mb-md"
                   value={tokenValue}
                   onChange={(e) => setTokenValue(e.target.value)}
+                  placeholder="#cc0000"
                 />
               </div>
 
               <div className="modal-dialog-footer">
-                <button type="submit" className="btn-primary">
-                  Add
+                <button type="submit" className="button button--primary">
+                  Create
                 </button>
               </div>
             </form>
