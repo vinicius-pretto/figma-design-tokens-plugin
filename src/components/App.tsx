@@ -55,7 +55,7 @@ const App = () => {
 
   const renderColorTokens = () => {
     return (
-      <div className="row mg-top-lg flex-wrap">
+      <div className="row mt-lg flex-wrap">
         {colorTokens.map((colorToken: Token) => (
           <div
             key={colorToken.id}
@@ -115,7 +115,7 @@ const App = () => {
           </div>
 
           {colorTokens.length === 0 ? (
-            <div className="mg-top-lg">
+            <div className="mt-lg">
               <p className="color-gray">Add your tokens...</p>
             </div>
           ) : (

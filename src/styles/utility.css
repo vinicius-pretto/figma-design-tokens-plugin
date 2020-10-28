@@ -1,0 +1,29 @@
+.row {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.mt-lg {
+  margin-top: var(--spacing-lg);
+}
+
+.mr-sm {
+  margin-right: var(--spacing-sm);
+}
+
+.color-gray {
+  color: var(--color-gray);
+}
+
+.hidden {
+  visibility: hidden;
+  transition: all 0.2s ease-out;
+  opacity: 0;
+}
