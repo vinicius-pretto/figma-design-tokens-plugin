@@ -45,17 +45,39 @@ const App = () => {
     setColorTokens(tokens);
   };
 
+  const onMouseEnter = (tokenId: string) => {
+    document.querySelector(`#btn-${tokenId}`).classList.remove("hidden");
+  };
+
+  const onMouseLeave = (tokenId: string) => {
+    document.querySelector(`#btn-${tokenId}`).classList.add("hidden");
+  };
+
   const renderColorTokens = () => {
     return (
-      <div className="row mg-top-lg">
+      <div className="row mg-top-lg flex-wrap">
         {colorTokens.map((colorToken: Token) => (
-          <button key={colorToken.id} className="color-token">
-            <span
-              className="color-token-shape"
-              style={{ backgroundColor: colorToken.value }}
-            ></span>
-            <span>{colorToken.name}</span>
-          </button>
+          <div
+            key={colorToken.id}
+            className="row align-items-center"
+            onMouseEnter={() => onMouseEnter(colorToken.id)}
+            onMouseLeave={() => onMouseLeave(colorToken.id)}
+          >
+            <button className="color-token">
+              <span
+                className="color-token-shape"
+                style={{ backgroundColor: colorToken.value }}
+              ></span>
+              <span className="mr-sm">{colorToken.name}</span>
+            </button>
+            <button
+              id={`btn-${colorToken.id}`}
+              type="button"
+              className="btn-icon hidden"
+            >
+              <PencilIcon />
+            </button>
+          </div>
         ))}
       </div>
     );
@@ -87,15 +109,9 @@ const App = () => {
           <div className="tokens-section-header">
             <h3>Colors</h3>
 
-            <div>
-              <button type="button" className="btn-icon mg-right-sm">
-                <PencilIcon />
-              </button>
-
-              <button type="button" className="btn-icon" onClick={openModal}>
-                <PlusIcon />
-              </button>
-            </div>
+            <button type="button" className="btn-icon" onClick={openModal}>
+              <PlusIcon />
+            </button>
           </div>
 
           {colorTokens.length === 0 ? (
