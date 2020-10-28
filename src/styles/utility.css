@@ -22,10 +22,6 @@
   margin-bottom: var(--spacing-md);
 }
 
-.color-gray {
-  color: var(--color-gray);
-}
-
 .hidden {
   visibility: hidden;
   transition: all 0.2s ease-out;

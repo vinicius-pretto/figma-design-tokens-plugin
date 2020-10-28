@@ -92,18 +92,24 @@ const App = () => {
       <nav className="navbar">
         <ul>
           <li>
-            <a href="#" className="active">
+            <a href="#" className="section-title">
               Tokens
             </a>
           </li>
           <li>
-            <a href="#">CSS</a>
+            <a href="#" className="label">
+              CSS
+            </a>
           </li>
           <li>
-            <a href="#">SCSS</a>
+            <a href="#" className="label">
+              SCSS
+            </a>
           </li>
           <li>
-            <a href="#">JSON</a>
+            <a href="#" className="label">
+              JSON
+            </a>
           </li>
         </ul>
       </nav>
@@ -111,7 +117,7 @@ const App = () => {
       <main>
         <section className="tokens-section">
           <div className="tokens-section-header">
-            <h3>Colors</h3>
+            <h3 className="section-title">Colors</h3>
 
             <div
               className="icon-button"
@@ -126,7 +132,7 @@ const App = () => {
 
           {colorTokens.length === 0 ? (
             <div className="mt-lg">
-              <p className="color-gray">Add your tokens...</p>
+              <p className="label">No color tokens</p>
             </div>
           ) : (
             renderColorTokens()
@@ -136,7 +142,7 @@ const App = () => {
         <div id="modal">
           <div className="modal-dialog">
             <div className="modal-dialog-header">
-              <h2>Colors</h2>
+              <h2 className="section-title">Colors</h2>
 
               <div
                 className="icon-button"

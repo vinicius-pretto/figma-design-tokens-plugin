@@ -41,7 +41,8 @@ h3,
 h4,
 h5,
 h6,
-form {
+form,
+ul {
   margin: 0;
   font-size: inherit;
 }
@@ -57,7 +58,7 @@ a {
 }
 
 .tokens-section {
-  padding: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-sm);
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: var(--color-gray-light);
