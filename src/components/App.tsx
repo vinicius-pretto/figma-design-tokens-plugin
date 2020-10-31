@@ -5,10 +5,8 @@ import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import "../styles/main.css";
 import UiEventType from "../consts/UIEventType";
 import tokenMessenger from "../messages/tokenMessenger";
-
-enum TokenType {
-  COLOR = "color",
-}
+import TokenType from "../consts/TokenType";
+import Modal from "./Modal";
 
 interface Token {
   id: string;
@@ -20,6 +18,7 @@ interface Token {
 const App = () => {
   const [tokenName, setTokenName] = React.useState("");
   const [tokenValue, setTokenValue] = React.useState("");
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [colorTokens, setColorTokens] = React.useState([]);
   const [tokenSelected, setTokenSelected] = React.useState({});
 
@@ -34,14 +33,6 @@ const App = () => {
       }
     };
   }, []);
-
-  const openModal = () => {
-    document.querySelector("#modal").classList.add("active");
-  };
-
-  const closeModal = () => {
-    document.querySelector("#modal").classList.remove("active");
-  };
 
   const updateToken = (token) => {
     const tokenUpdated = {
@@ -58,7 +49,7 @@ const App = () => {
     saveTokens(colorTokensCopy);
     setTokenSelected({});
     clearFields();
-    closeModal();
+    onCloseModal();
   };
 
   const onSubmitColorToken = (e: React.FormEvent) => {
@@ -77,7 +68,7 @@ const App = () => {
     };
     const tokens = colorTokens.concat(token);
 
-    closeModal();
+    onCloseModal();
     clearFields();
     saveTokens(tokens);
   };
@@ -96,7 +87,7 @@ const App = () => {
   };
 
   const onUpdateToken = (token: Token) => {
-    openModal();
+    onOpenModal();
     setTokenName(token.name);
     setTokenValue(token.value);
     setTokenSelected(token);
@@ -105,6 +96,14 @@ const App = () => {
   const saveTokens = (tokens) => {
     tokenMessenger.postSetTokensMessage(tokens);
     setColorTokens(tokens);
+  };
+
+  const onOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const onCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   const renderColorTokens = () => {
@@ -178,7 +177,7 @@ const App = () => {
               role="button"
               aria-label="Add token"
               tabIndex={0}
-              onClick={openModal}
+              onClick={onOpenModal}
             >
               <div className="icon icon--plus"></div>
             </div>
@@ -193,51 +192,35 @@ const App = () => {
           )}
         </section>
 
-        <div id="modal">
-          <div className="modal-dialog">
-            <div className="modal-dialog-header">
-              <h2 className="section-title">Colors</h2>
-
-              <div
-                className="icon-button"
-                role="button"
-                aria-label="Close"
-                tabIndex={0}
-                onClick={closeModal}
-              >
-                <div className="icon icon--close"></div>
-              </div>
+        <Modal title="Colors" isOpen={isModalOpen} onClose={onCloseModal}>
+          <form onSubmit={onSubmitColorToken}>
+            <div className="input">
+              <input
+                id="name"
+                className="input__field mb-md"
+                value={tokenName}
+                onChange={(e) => setTokenName(e.target.value)}
+                placeholder="color-primary"
+              />
             </div>
 
-            <form className="modal-dialog-body" onSubmit={onSubmitColorToken}>
-              <div className="input">
-                <input
-                  id="name"
-                  className="input__field mb-md"
-                  value={tokenName}
-                  onChange={(e) => setTokenName(e.target.value)}
-                  placeholder="color-primary"
-                />
-              </div>
+            <div className="input">
+              <input
+                id="value"
+                className="input__field mb-md"
+                value={tokenValue}
+                onChange={(e) => setTokenValue(e.target.value)}
+                placeholder="#cc0000"
+              />
+            </div>
 
-              <div className="input">
-                <input
-                  id="value"
-                  className="input__field mb-md"
-                  value={tokenValue}
-                  onChange={(e) => setTokenValue(e.target.value)}
-                  placeholder="#cc0000"
-                />
-              </div>
-
-              <div className="modal-dialog-footer">
-                <button type="submit" className="button button--primary">
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+            <div className="modal-dialog-footer">
+              <button type="submit" className="button button--primary">
+                Save
+              </button>
+            </div>
+          </form>
+        </Modal>
       </main>
     </>
   );
