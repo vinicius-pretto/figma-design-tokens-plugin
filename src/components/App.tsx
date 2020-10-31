@@ -1,9 +1,7 @@
 import * as React from "react";
 import { v4 as uuid } from "uuid";
+import * as _ from "lodash";
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
-import PencilIcon from "./icons/PencilIcon";
-import PlusIcon from "./icons/PlusIcon";
-import CloseIcon from "./icons/CloseIcon";
 import "../styles/main.css";
 
 enum TokenType {
@@ -21,6 +19,7 @@ const App = () => {
   const [tokenName, setTokenName] = React.useState("");
   const [tokenValue, setTokenValue] = React.useState("");
   const [colorTokens, setColorTokens] = React.useState([]);
+  const [tokenSelected, setTokenSelected] = React.useState({});
 
   const openModal = () => {
     document.querySelector("#modal").classList.add("active");
@@ -30,8 +29,32 @@ const App = () => {
     document.querySelector("#modal").classList.remove("active");
   };
 
+  const updateToken = (token) => {
+    const tokenUpdated = {
+      id: token.id,
+      type: token.type,
+      name: tokenName,
+      value: tokenValue,
+    };
+
+    const colorTokensCopy = _.cloneDeep(colorTokens);
+    const index = _.findIndex(colorTokensCopy, ["id", token.id]);
+    colorTokensCopy.splice(index, 1, tokenUpdated);
+
+    setColorTokens(colorTokensCopy);
+    setTokenSelected({});
+    clearFields();
+    closeModal();
+  };
+
   const onSubmitColorToken = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!_.isEmpty(tokenSelected)) {
+      updateToken(tokenSelected);
+      return;
+    }
+
     const token = {
       id: uuid(),
       type: TokenType.COLOR,
@@ -41,8 +64,7 @@ const App = () => {
     const tokens = colorTokens.concat(token);
 
     closeModal();
-    setTokenName("");
-    setTokenValue("");
+    clearFields();
     setColorTokens(tokens);
   };
 
@@ -52,6 +74,18 @@ const App = () => {
 
   const onMouseLeave = (tokenId: string) => {
     document.querySelector(`#btn-${tokenId}`).classList.add("hidden");
+  };
+
+  const clearFields = () => {
+    setTokenName("");
+    setTokenValue("");
+  };
+
+  const onUpdateToken = (token: Token) => {
+    openModal();
+    setTokenName(token.name);
+    setTokenValue(token.value);
+    setTokenSelected(token);
   };
 
   const renderColorTokens = () => {
@@ -78,6 +112,7 @@ const App = () => {
               role="button"
               aria-label="Edit"
               tabIndex={0}
+              onClick={() => onUpdateToken(colorToken)}
             >
               <div className="icon icon--adjust"></div>
             </div>
@@ -178,7 +213,7 @@ const App = () => {
 
               <div className="modal-dialog-footer">
                 <button type="submit" className="button button--primary">
-                  Create
+                  Save
                 </button>
               </div>
             </form>
