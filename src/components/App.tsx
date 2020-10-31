@@ -7,6 +7,7 @@ import UiEventType from "../consts/UIEventType";
 import tokenMessenger from "../messages/tokenMessenger";
 import TokenType from "../consts/TokenType";
 import Modal from "./Modal";
+import Tokens from "./Tokens";
 
 interface Token {
   id: string;
@@ -73,14 +74,6 @@ const App = () => {
     saveTokens(tokens);
   };
 
-  const onMouseEnter = (tokenId: string) => {
-    document.querySelector(`#btn-${tokenId}`).classList.remove("hidden");
-  };
-
-  const onMouseLeave = (tokenId: string) => {
-    document.querySelector(`#btn-${tokenId}`).classList.add("hidden");
-  };
-
   const clearFields = () => {
     setTokenName("");
     setTokenValue("");
@@ -104,40 +97,6 @@ const App = () => {
 
   const onCloseModal = () => {
     setIsModalOpen(false);
-  };
-
-  const renderColorTokens = () => {
-    return (
-      <div className="row mt-lg flex-wrap">
-        {colorTokens.map((colorToken: Token) => (
-          <div
-            key={colorToken.id}
-            className="row align-items-center"
-            onMouseEnter={() => onMouseEnter(colorToken.id)}
-            onMouseLeave={() => onMouseLeave(colorToken.id)}
-          >
-            <button className="color-token">
-              <span
-                className="color-token-shape"
-                style={{ backgroundColor: colorToken.value }}
-              ></span>
-              <span className="mr-sm">{colorToken.name}</span>
-            </button>
-
-            <div
-              id={`btn-${colorToken.id}`}
-              className="icon-button"
-              role="button"
-              aria-label="Edit"
-              tabIndex={0}
-              onClick={() => onUpdateToken(colorToken)}
-            >
-              <div className="icon icon--adjust"></div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
   };
 
   return (
@@ -168,29 +127,13 @@ const App = () => {
       </nav>
 
       <main>
-        <section className="tokens-section">
-          <div className="tokens-section-header">
-            <h3 className="section-title">Colors</h3>
-
-            <div
-              className="icon-button"
-              role="button"
-              aria-label="Add token"
-              tabIndex={0}
-              onClick={onOpenModal}
-            >
-              <div className="icon icon--plus"></div>
-            </div>
-          </div>
-
-          {colorTokens.length === 0 ? (
-            <div className="mt-lg">
-              <p className="label">No color tokens</p>
-            </div>
-          ) : (
-            renderColorTokens()
-          )}
-        </section>
+        <Tokens
+          title="Colors"
+          tokens={colorTokens}
+          onCreate={onOpenModal}
+          onUpdate={onUpdateToken}
+          message="No color tokens"
+        />
 
         <Modal title="Colors" isOpen={isModalOpen} onClose={onCloseModal}>
           <form onSubmit={onSubmitColorToken}>
