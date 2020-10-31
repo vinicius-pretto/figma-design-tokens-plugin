@@ -3,8 +3,8 @@ import { v4 as uuid } from "uuid";
 import * as _ from "lodash";
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import "../styles/main.css";
-import EventType from "../consts/EventType";
 import UiEventType from "../consts/UIEventType";
+import tokenMessenger from "../messages/tokenMessenger";
 
 enum TokenType {
   COLOR = "color",
@@ -23,27 +23,8 @@ const App = () => {
   const [colorTokens, setColorTokens] = React.useState([]);
   const [tokenSelected, setTokenSelected] = React.useState({});
 
-  const postGetTokensMessage = () => {
-    const message = {
-      pluginMessage: {
-        type: EventType.GET_TOKENS,
-      },
-    };
-    window.parent.postMessage(message, "*");
-  };
-
-  const postSetTokensMessage = (tokens) => {
-    const message = {
-      pluginMessage: {
-        type: EventType.SET_TOKENS,
-        tokens,
-      },
-    };
-    window.parent.postMessage(message, "*");
-  };
-
   React.useEffect(() => {
-    postGetTokensMessage();
+    tokenMessenger.postGetTokensMessage();
 
     window.onmessage = (e) => {
       const { type, values } = e.data.pluginMessage;
@@ -122,7 +103,7 @@ const App = () => {
   };
 
   const saveTokens = (tokens) => {
-    postSetTokensMessage(tokens);
+    tokenMessenger.postSetTokensMessage(tokens);
     setColorTokens(tokens);
   };
 
