@@ -3,6 +3,8 @@ import { v4 as uuid } from "uuid";
 import * as _ from "lodash";
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import "../styles/main.css";
+import EventType from "../consts/EventType";
+import UiEventType from "../consts/UIEventType";
 
 enum TokenType {
   COLOR = "color",
@@ -20,6 +22,37 @@ const App = () => {
   const [tokenValue, setTokenValue] = React.useState("");
   const [colorTokens, setColorTokens] = React.useState([]);
   const [tokenSelected, setTokenSelected] = React.useState({});
+
+  const postGetTokensMessage = () => {
+    const message = {
+      pluginMessage: {
+        type: EventType.GET_TOKENS,
+      },
+    };
+    window.parent.postMessage(message, "*");
+  };
+
+  const postSetTokensMessage = (tokens) => {
+    const message = {
+      pluginMessage: {
+        type: EventType.SET_TOKENS,
+        tokens,
+      },
+    };
+    window.parent.postMessage(message, "*");
+  };
+
+  React.useEffect(() => {
+    postGetTokensMessage();
+
+    window.onmessage = (e) => {
+      const { type, values } = e.data.pluginMessage;
+
+      if (type === UiEventType.GET_TOKENS) {
+        setColorTokens(values);
+      }
+    };
+  }, []);
 
   const openModal = () => {
     document.querySelector("#modal").classList.add("active");
@@ -41,7 +74,7 @@ const App = () => {
     const index = _.findIndex(colorTokensCopy, ["id", token.id]);
     colorTokensCopy.splice(index, 1, tokenUpdated);
 
-    setColorTokens(colorTokensCopy);
+    saveTokens(colorTokensCopy);
     setTokenSelected({});
     clearFields();
     closeModal();
@@ -65,7 +98,7 @@ const App = () => {
 
     closeModal();
     clearFields();
-    setColorTokens(tokens);
+    saveTokens(tokens);
   };
 
   const onMouseEnter = (tokenId: string) => {
@@ -86,6 +119,11 @@ const App = () => {
     setTokenName(token.name);
     setTokenValue(token.value);
     setTokenSelected(token);
+  };
+
+  const saveTokens = (tokens) => {
+    postSetTokensMessage(tokens);
+    setColorTokens(tokens);
   };
 
   const renderColorTokens = () => {
