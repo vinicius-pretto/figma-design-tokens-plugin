@@ -8,6 +8,7 @@ import tokenMessenger from "../messages/tokenMessenger";
 import TokenType from "../consts/TokenType";
 import Modal from "./Modal";
 import Tokens from "./Tokens";
+import Navbar from "./Navbar";
 
 interface Token {
   id: string;
@@ -101,30 +102,7 @@ const App = () => {
 
   return (
     <>
-      <nav className="navbar">
-        <ul>
-          <li>
-            <a href="#" className="section-title">
-              Tokens
-            </a>
-          </li>
-          <li>
-            <a href="#" className="label">
-              CSS
-            </a>
-          </li>
-          <li>
-            <a href="#" className="label">
-              SCSS
-            </a>
-          </li>
-          <li>
-            <a href="#" className="label">
-              JSON
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <Navbar />
 
       <main>
         <Tokens
