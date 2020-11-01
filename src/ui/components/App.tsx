@@ -9,6 +9,7 @@ import TokenType from "../../consts/TokenType";
 import Modal from "./Modal/Modal";
 import Tokens from "./Tokens/Tokens";
 import Navbar from "./Navbar/Navbar";
+import Input from "./Input/Input";
 
 interface Token {
   id: string;
@@ -116,27 +117,21 @@ const App = () => {
 
         <Modal title="Colors" isOpen={isModalOpen} onClose={onCloseModal}>
           <form onSubmit={onSubmitColorToken}>
-            <div className="input">
-              <input
-                id="name"
-                className="input__field mb-md"
-                value={tokenName}
-                onChange={(e) => setTokenName(e.target.value)}
-                placeholder="color-primary"
-              />
-            </div>
+            <Input
+              id="name"
+              value={tokenName}
+              onChange={(e) => setTokenName(e.target.value)}
+              placeholder="color-primary"
+            />
 
-            <div className="input">
-              <input
-                id="value"
-                className="input__field mb-md"
-                value={tokenValue}
-                onChange={(e) => setTokenValue(e.target.value)}
-                placeholder="#cc0000"
-              />
-            </div>
+            <Input
+              id="value"
+              value={tokenValue}
+              onChange={(e) => setTokenValue(e.target.value)}
+              placeholder="#cc0000"
+            />
 
-            <div className="modal-dialog-footer">
+            <div className="d-flex justify-content-end">
               <button type="submit" className="button button--primary">
                 Save
               </button>
