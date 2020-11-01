@@ -1,5 +1,5 @@
-import EventType from "./consts/EventType";
-import UiEventType from "./consts/UIEventType";
+import EventType from "../consts/EventType";
+import UiEventType from "../consts/UIEventType";
 
 const uiOptions: ShowUIOptions = {
   width: 500,

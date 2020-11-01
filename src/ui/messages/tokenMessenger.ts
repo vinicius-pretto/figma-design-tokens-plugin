@@ -1,4 +1,4 @@
-import EventType from "../consts/EventType";
+import EventType from "../../consts/EventType";
 
 const TARGET_ORIGIN = "*";
 

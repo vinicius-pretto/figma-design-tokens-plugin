@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as _ from "lodash";
-import Token from "../consts/Token";
+import Token from "../../consts/Token";
 
 const Tokens = ({ title, tokens, onCreate, onUpdate, message }) => {
   const onMouseEnter = (tokenId: string) => {
