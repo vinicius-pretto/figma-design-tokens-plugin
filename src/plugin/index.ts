@@ -22,6 +22,15 @@ function setColorToken(node, token: Token) {
   node.fills = fills;
 }
 
+function getNodeTokens(node): Array<object> {
+  try {
+    const tokens = node.getPluginData("tokens");
+    return JSON.parse(tokens);
+  } catch {
+    return [];
+  }
+}
+
 figma.ui.onmessage = (msg) => {
   if (msg.type === EventType.GET_TOKENS) {
     figma.ui.postMessage({
@@ -42,7 +51,12 @@ figma.ui.onmessage = (msg) => {
   }
   if (msg.type === EventType.UPDATE_COLOR_TOKEN) {
     figma.currentPage.children.forEach((node: any) => {
-      setColorToken(node, msg.token);
+      const tokens = getNodeTokens(node);
+      const hasToken = tokens.some((token: Token) => token.id === msg.token.id);
+
+      if (hasToken) {
+        setColorToken(node, msg.token);
+      }
     });
     return;
   }

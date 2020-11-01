@@ -3,7 +3,7 @@
 exports[`Tokens snapshot 1`] = `
 <DocumentFragment>
   <section
-    class="tokens-section"
+    class="border-bottom p-sm"
   >
     <div
       class="tokens-section-header"
@@ -25,10 +25,10 @@ exports[`Tokens snapshot 1`] = `
       </div>
     </div>
     <div
-      class="row mt-lg flex-wrap"
+      class="d-flex flex-row flex-wrap"
     >
       <div
-        class="row align-items-center"
+        class="d-flex flex-row align-items-center justify-content-between w-100"
       >
         <button
           class="color-token"
@@ -56,7 +56,7 @@ exports[`Tokens snapshot 1`] = `
         </div>
       </div>
       <div
-        class="row align-items-center"
+        class="d-flex flex-row align-items-center justify-content-between w-100"
       >
         <button
           class="color-token"
