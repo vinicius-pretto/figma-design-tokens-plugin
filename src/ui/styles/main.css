@@ -21,7 +21,6 @@
 @import "./variables";
 @import "./utility";
 @import "./modal";
-@import "./navbar";
 
 html {
   box-sizing: border-box;
@@ -47,6 +46,14 @@ ul {
   font-size: inherit;
 }
 
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
 body {
   color: var(--color-dark);
   font-size: var(--font-size-base);
@@ -59,9 +66,6 @@ a {
 
 .tokens-section {
   padding: var(--spacing-md) var(--spacing-sm);
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: var(--color-gray-light);
 }
 
 .tokens-section-header {

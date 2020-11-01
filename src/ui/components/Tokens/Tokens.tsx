@@ -21,7 +21,7 @@ const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
   };
 
   return (
-    <section className="tokens-section">
+    <section className="border-bottom p-sm">
       <div className="tokens-section-header">
         <h3 className="section-title">{title}</h3>
 
@@ -41,11 +41,11 @@ const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
           <p className="label">{message}</p>
         </div>
       ) : (
-        <div className="row mt-lg flex-wrap">
+        <div className="d-flex flex-row flex-wrap">
           {tokens.map((token: Token) => (
             <div
               key={token.id}
-              className="row align-items-center"
+              className="d-flex flex-row align-items-center justify-content-between w-100"
               onMouseEnter={() => onMouseEnter(token.id)}
               onMouseLeave={() => onMouseLeave(token.id)}
             >

@@ -4,8 +4,8 @@ import Token from "../consts/Token";
 import UiEventType from "../consts/UIEventType";
 
 const uiOptions: ShowUIOptions = {
-  width: 500,
-  height: 616,
+  width: 400,
+  height: 600,
 };
 
 figma.showUI(__html__, uiOptions);
