@@ -51,9 +51,7 @@ const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
             >
               <button
                 className="color-token"
-                onClick={() =>
-                  tokenMessenger.postSetColorTokenMessage(token.value)
-                }
+                onClick={() => tokenMessenger.postSetColorTokenMessage(token)}
               >
                 <span
                   className="color-token-shape"

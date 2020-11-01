@@ -1,5 +1,6 @@
 import { hexToFigmaRGB } from "@figma-plugin/helpers";
 import EventType from "../consts/EventType";
+import Token from "../consts/Token";
 import UiEventType from "../consts/UIEventType";
 
 const uiOptions: ShowUIOptions = {
@@ -8,6 +9,18 @@ const uiOptions: ShowUIOptions = {
 };
 
 figma.showUI(__html__, uiOptions);
+
+function setColorToken(node, token: Token) {
+  const fills = [
+    {
+      ...node.fills[0],
+      color: hexToFigmaRGB(token.value),
+    },
+  ];
+  const tokens = JSON.stringify([token]);
+  node.setPluginData("tokens", tokens);
+  node.fills = fills;
+}
 
 figma.ui.onmessage = (msg) => {
   if (msg.type === EventType.GET_TOKENS) {
@@ -23,13 +36,13 @@ figma.ui.onmessage = (msg) => {
   }
   if (msg.type === EventType.SET_COLOR_TOKEN) {
     figma.currentPage.selection.forEach((node: any) => {
-      const fills = [
-        {
-          ...node.fills[0],
-          color: hexToFigmaRGB(msg.value),
-        },
-      ];
-      node.fills = fills;
+      setColorToken(node, msg.token);
+    });
+    return;
+  }
+  if (msg.type === EventType.UPDATE_COLOR_TOKEN) {
+    figma.currentPage.children.forEach((node: any) => {
+      setColorToken(node, msg.token);
     });
     return;
   }

@@ -52,6 +52,7 @@ const App = () => {
     setTokenSelected({});
     clearFields();
     onCloseModal();
+    tokenMessenger.postUpdateColorTokenMessage(tokenUpdated);
   };
 
   const onSubmitColorToken = (e: React.FormEvent) => {

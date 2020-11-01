@@ -1,4 +1,5 @@
 import EventType from "../../consts/EventType";
+import Token from "../../consts/Token";
 
 const TARGET_ORIGIN = "*";
 
@@ -21,11 +22,21 @@ const postSetTokensMessage = (tokens) => {
   window.parent.postMessage(message, TARGET_ORIGIN);
 };
 
-const postSetColorTokenMessage = (value: string) => {
+const postSetColorTokenMessage = (token: Token) => {
   const message = {
     pluginMessage: {
       type: EventType.SET_COLOR_TOKEN,
-      value: value,
+      token,
+    },
+  };
+  window.parent.postMessage(message, TARGET_ORIGIN);
+};
+
+const postUpdateColorTokenMessage = (token: Token) => {
+  const message = {
+    pluginMessage: {
+      type: EventType.UPDATE_COLOR_TOKEN,
+      token,
     },
   };
   window.parent.postMessage(message, TARGET_ORIGIN);
@@ -35,4 +46,5 @@ export default {
   postGetTokensMessage,
   postSetTokensMessage,
   postSetColorTokenMessage,
+  postUpdateColorTokenMessage,
 };
