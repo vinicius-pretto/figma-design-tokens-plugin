@@ -21,7 +21,18 @@ const postSetTokensMessage = (tokens) => {
   window.parent.postMessage(message, TARGET_ORIGIN);
 };
 
+const postSetColorTokenMessage = (value: string) => {
+  const message = {
+    pluginMessage: {
+      type: EventType.SET_COLOR_TOKEN,
+      value: value,
+    },
+  };
+  window.parent.postMessage(message, TARGET_ORIGIN);
+};
+
 export default {
   postGetTokensMessage,
   postSetTokensMessage,
+  postSetColorTokenMessage,
 };

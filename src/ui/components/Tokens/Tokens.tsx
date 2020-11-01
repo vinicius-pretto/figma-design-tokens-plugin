@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as _ from "lodash";
 import Token from "../../../consts/Token";
+import tokenMessenger from "../../messages/tokenMessenger";
 
 interface Props {
   title: string;
@@ -48,7 +49,12 @@ const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
               onMouseEnter={() => onMouseEnter(token.id)}
               onMouseLeave={() => onMouseLeave(token.id)}
             >
-              <button className="color-token">
+              <button
+                className="color-token"
+                onClick={() =>
+                  tokenMessenger.postSetColorTokenMessage(token.value)
+                }
+              >
                 <span
                   className="color-token-shape"
                   style={{ backgroundColor: token.value }}

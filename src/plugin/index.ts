@@ -1,3 +1,4 @@
+import { hexToFigmaRGB } from "@figma-plugin/helpers";
 import EventType from "../consts/EventType";
 import UiEventType from "../consts/UIEventType";
 
@@ -18,6 +19,18 @@ figma.ui.onmessage = (msg) => {
   }
   if (msg.type === EventType.SET_TOKENS) {
     figma.root.setPluginData("tokens", JSON.stringify(msg.tokens));
+    return;
+  }
+  if (msg.type === EventType.SET_COLOR_TOKEN) {
+    figma.currentPage.selection.forEach((node: any) => {
+      const fills = [
+        {
+          ...node.fills[0],
+          color: hexToFigmaRGB(msg.value),
+        },
+      ];
+      node.fills = fills;
+    });
     return;
   }
   figma.closePlugin();
