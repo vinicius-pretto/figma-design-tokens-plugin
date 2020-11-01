@@ -1,8 +1,16 @@
 import * as React from "react";
 import * as _ from "lodash";
-import Token from "../../consts/Token";
+import Token from "../../../consts/Token";
 
-const Tokens = ({ title, tokens, onCreate, onUpdate, message }) => {
+interface Props {
+  title: string;
+  tokens: Array<object>;
+  onCreate: any;
+  onUpdate: any;
+  message: string;
+}
+
+const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
   const onMouseEnter = (tokenId: string) => {
     document.querySelector(`#btn-${tokenId}`).classList.remove("hidden");
   };

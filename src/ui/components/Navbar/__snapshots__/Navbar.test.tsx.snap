@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar snapshot 1`] = `
+<DocumentFragment>
+  <nav
+    class="navbar"
+  >
+    <ul>
+      <li>
+        <a
+          class="section-title"
+          href="#"
+        >
+          Tokens
+        </a>
+      </li>
+      <li>
+        <a
+          class="label"
+          href="#"
+        >
+          CSS
+        </a>
+      </li>
+      <li>
+        <a
+          class="label"
+          href="#"
+        >
+          SCSS
+        </a>
+      </li>
+      <li>
+        <a
+          class="label"
+          href="#"
+        >
+          JSON
+        </a>
+      </li>
+    </ul>
+  </nav>
+</DocumentFragment>
+`;

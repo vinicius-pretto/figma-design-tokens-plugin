@@ -1,6 +1,13 @@
 import * as React from "react";
 
-const Modal = ({ title, isOpen, onClose, children }) => {
+interface Props {
+  title: string;
+  isOpen: boolean;
+  onClose: any;
+  children: any;
+}
+
+const Modal = ({ title, isOpen, onClose, children }: Props) => {
   return (
     <div id="modal" className={isOpen ? "active" : ""}>
       <div className="modal-dialog">

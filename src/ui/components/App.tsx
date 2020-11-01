@@ -6,9 +6,9 @@ import "../styles/main.css";
 import UiEventType from "../../consts/UIEventType";
 import tokenMessenger from "../messages/tokenMessenger";
 import TokenType from "../../consts/TokenType";
-import Modal from "./Modal";
-import Tokens from "./Tokens";
-import Navbar from "./Navbar";
+import Modal from "./Modal/Modal";
+import Tokens from "./Tokens/Tokens";
+import Navbar from "./Navbar/Navbar";
 
 interface Token {
   id: string;
