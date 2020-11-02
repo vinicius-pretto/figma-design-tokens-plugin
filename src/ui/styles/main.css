@@ -91,3 +91,11 @@ a {
   border-radius: var(--border-radius-circle);
   margin-right: var(--spacing-sm);
 }
+
+.highlight {
+  margin: 0;
+  padding: var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  background-color: var(--color-gray-light);
+}

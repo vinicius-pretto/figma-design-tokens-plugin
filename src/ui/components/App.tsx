@@ -10,6 +10,8 @@ import Modal from "./Modal/Modal";
 import Tokens from "./Tokens/Tokens";
 import Navbar from "./Navbar/Navbar";
 import Input from "./Input/Input";
+import Tab from "../../consts/Tab";
+import TokensSection from "./TokensSection";
 
 interface Token {
   id: string;
@@ -24,6 +26,7 @@ const App = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [colorTokens, setColorTokens] = React.useState([]);
   const [tokenSelected, setTokenSelected] = React.useState({});
+  const [tabSelected, setTabSelected] = React.useState(Tab.TOKENS);
 
   React.useEffect(() => {
     tokenMessenger.postGetTokensMessage();
@@ -102,18 +105,54 @@ const App = () => {
     setIsModalOpen(false);
   };
 
+  const parseTokensToCSS = (tokens) => {
+    const cssTokens = tokens
+      .map((token: Token) => `  --${token.name}: ${token.value};`)
+      .join("\n");
+
+    return `:root {\n${cssTokens}\n}`;
+  };
+
+  const parseTokensToSCSS = (tokens) => {
+    return tokens
+      .map((token: Token) => `$${token.name}: ${token.value};`)
+      .join("\n");
+  };
+
+  const parseTokensToJSON = (tokens) => {
+    return tokens.map((token: Token) => `"${token.name}": "${token.value}"`);
+  };
+
+  const renderTokensSection = () => {
+    if (tabSelected === Tab.CSS) {
+      return <TokensSection tokens={parseTokensToCSS(colorTokens)} />;
+    }
+    if (tabSelected === Tab.SCSS) {
+      return <TokensSection tokens={parseTokensToSCSS(colorTokens)} />;
+    }
+    if (tabSelected === Tab.JSON) {
+      return <TokensSection tokens={JSON.stringify(colorTokens, null, 2)} />;
+    }
+    return (
+      <Tokens
+        title="Colors"
+        tokens={colorTokens}
+        onCreate={onOpenModal}
+        onUpdate={onUpdateToken}
+        message="No color tokens"
+      />
+    );
+  };
+
   return (
     <>
-      <Navbar />
+      <Navbar
+        onClick={(tab: Tab) => setTabSelected(tab)}
+        tabSelected={tabSelected}
+      />
 
       <main>
-        <Tokens
-          title="Colors"
-          tokens={colorTokens}
-          onCreate={onOpenModal}
-          onUpdate={onUpdateToken}
-          message="No color tokens"
-        />
+        {renderTokensSection()}
 
         <Modal title="Colors" isOpen={isModalOpen} onClose={onCloseModal}>
           <form onSubmit={onSubmitColorToken}>

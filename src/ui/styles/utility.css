@@ -44,6 +44,11 @@
   margin-bottom: var(--spacing-md);
 }
 
+.mx-0 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 /* paddings */
 .p-0 {
   padding: 0;
@@ -51,6 +56,10 @@
 
 .p-sm {
   padding: var(--spacing-sm);
+}
+
+.p-md {
+  padding: var(--spacing-md);
 }
 
 .pr-sm {
