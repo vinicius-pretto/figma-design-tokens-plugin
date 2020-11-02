@@ -40,6 +40,10 @@
   margin-right: var(--spacing-sm);
 }
 
+.mb-sm {
+  margin-bottom: var(--spacing-sm);
+}
+
 .mb-md {
   margin-bottom: var(--spacing-md);
 }

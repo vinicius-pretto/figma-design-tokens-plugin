@@ -1,11 +1,12 @@
 :root {
   --color-dark: #333;
   --color-white: #fff;
+  --color-gray-10: #f8f9fa;
   --color-gray-light: #e3e1e1;
   --color-gray: #bab6b6;
   --color-primary: #18a0fb;
   --font-family-base: Inter, sans-serif;
-  --font-size-base: 0.75rem;
+  --font-size-base: 0.688rem;
   --font-weight-normal: 400;
   --font-weight-bold: 700;
   --spacing-xs: 0.25rem;

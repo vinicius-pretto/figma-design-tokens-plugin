@@ -97,5 +97,12 @@ a {
   padding: var(--spacing-md);
   font-size: var(--font-size-base);
   font-family: inherit;
-  background-color: var(--color-gray-light);
+  background-color: var(--color-gray-10);
+  border-radius: var(--border-radius-base);
+}
+
+.highlight pre {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
 }
