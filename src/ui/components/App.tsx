@@ -120,7 +120,12 @@ const App = () => {
   };
 
   const parseTokensToJSON = (tokens) => {
-    return tokens.map((token: Token) => `"${token.name}": "${token.value}"`);
+    let jsonTokens = {};
+
+    tokens.forEach((token) => {
+      _.set(jsonTokens, token.name, token.value);
+    });
+    return JSON.stringify(jsonTokens, null, 2);
   };
 
   const renderTokensSection = () => {
@@ -131,7 +136,7 @@ const App = () => {
       return <TokensSection tokens={parseTokensToSCSS(colorTokens)} />;
     }
     if (tabSelected === Tab.JSON) {
-      return <TokensSection tokens={JSON.stringify(colorTokens, null, 2)} />;
+      return <TokensSection tokens={parseTokensToJSON(colorTokens)} />;
     }
     return (
       <Tokens
