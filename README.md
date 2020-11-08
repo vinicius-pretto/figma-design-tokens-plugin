@@ -32,15 +32,15 @@ $ npm run build
 
 Go to manage plugins and click on "Create your own plugin"
 
-![Figma plugins page](src/img/figma-plugins-page.png)
+![Figma plugins page](src/ui/img/figma-plugins-page.png)
 
 Choose a name for this plugin and upload the manifest.json
 
-![Figma plugins page](src/img/figma-create-plugin-page.png)
+![Figma plugins page](src/ui/img/figma-create-plugin-page.png)
 
 Now you can run this plugin.
 
-![Figma plugin](src/img/figma-plugin.png)
+![Figma plugin](src/ui/img/figma-plugin.png)
 
 ## License
 
