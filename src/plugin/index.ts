@@ -1,6 +1,5 @@
 import { hexToFigmaRGB } from "@figma-plugin/helpers";
 import EventType from "../consts/EventType";
-import FigmaNodeType from "../consts/FigmaNodeType";
 import Token from "../consts/Token";
 import UiEventType from "../consts/UIEventType";
 
@@ -11,28 +10,21 @@ const uiOptions: ShowUIOptions = {
 
 figma.showUI(__html__, uiOptions);
 
-function setColorToken(node, token: Token) {
-  const fills = [
-    {
-      ...node.fills[0],
-      color: hexToFigmaRGB(token.value),
-    },
-  ];
-  const tokens = JSON.stringify([token]);
-  node.setPluginData("tokens", tokens);
-  node.fills = fills;
-}
-
-function updateColorToken(node, token: Token) {
-  const tokens = getNodeTokens(node);
-  const hasToken = tokens.some((token: Token) => token.id === token.id);
-
-  if (hasToken) {
-    setColorToken(node, token);
+function setColorToken(node: any, token: Token) {
+  if (node.fills && node.fills[0]) {
+    const fills = [
+      {
+        ...node.fills[0],
+        color: hexToFigmaRGB(token.value),
+      },
+    ];
+    const tokens = JSON.stringify([token]);
+    node.setPluginData("tokens", tokens);
+    node.fills = fills;
   }
 }
 
-function getNodeTokens(node): Array<object> {
+function getNodeTokens(node: BaseNode): Array<object> {
   try {
     const tokens = node.getPluginData("tokens");
     return JSON.parse(tokens);
@@ -55,24 +47,19 @@ figma.ui.onmessage = (msg) => {
   }
   if (msg.type === EventType.SET_COLOR_TOKEN) {
     figma.currentPage.selection.forEach((node: any) => {
-      if (node.type === FigmaNodeType.FRAME) {
-        const childNode = node.children[0];
-        setColorToken(childNode, msg.token);
-      } else {
-        setColorToken(node, msg.token);
-      }
+      setColorToken(node, msg.token);
     });
     return;
   }
   if (msg.type === EventType.UPDATE_COLOR_TOKEN) {
-    figma.currentPage.children.forEach((node: any) => {
-      if (node.type === FigmaNodeType.FRAME) {
-        const childNode = node.children[0];
-        updateColorToken(childNode, msg.token);
-      } else {
-        updateColorToken(node, msg.token);
-      }
+    const nodes = figma.currentPage.findAll((node: BaseNode) => {
+      const tokens = getNodeTokens(node);
+      return tokens.some((token: Token) => token.id === msg.token.id);
     });
+    nodes.forEach((node: BaseNode) => {
+      setColorToken(node, msg.token);
+    });
+
     return;
   }
   figma.closePlugin();
