@@ -33,11 +33,20 @@ function getNodeTokens(node: BaseNode): Array<object> {
   }
 }
 
+function getAllTokens() {
+  try {
+    const tokens = JSON.parse(figma.root.getPluginData("tokens"));
+    return tokens;
+  } catch {
+    return [];
+  }
+}
+
 figma.ui.onmessage = (msg) => {
   if (msg.type === EventType.GET_TOKENS) {
     figma.ui.postMessage({
       type: UiEventType.GET_TOKENS,
-      values: JSON.parse(figma.root.getPluginData("tokens")),
+      values: getAllTokens(),
     });
     return;
   }
