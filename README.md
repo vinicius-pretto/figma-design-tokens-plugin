@@ -4,6 +4,8 @@
 
 The goal of this project is to give ability to create and export tokens on Figma.
 
+![Figma Design Tokens plugin](figma-plugin.gif)
+
 ## Running on development environment
 
 **Requirements:**
