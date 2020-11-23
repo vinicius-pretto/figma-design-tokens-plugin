@@ -3,7 +3,7 @@ import Tab from "../../../consts/Tab";
 
 const Navbar = ({ onClick, tabSelected }) => {
   return (
-    <nav className="border-bottom p-sm">
+    <nav className="border-bottom py-xs px-sm">
       <ul className="d-flex flex-row p-0">
         <li>
           <a

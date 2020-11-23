@@ -37,9 +37,7 @@ const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
       </div>
 
       {_.isEmpty(tokens) ? (
-        <div className="mt-lg">
-          <p className="label">{message}</p>
-        </div>
+        <p className="label my-0">{message}</p>
       ) : (
         <div className="d-flex flex-row flex-wrap">
           {tokens.map((token: Token) => (

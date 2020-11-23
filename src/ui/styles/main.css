@@ -81,6 +81,8 @@ a {
   background-color: transparent;
   border: none;
   padding: var(--spacing-sm);
+  font-size: inherit;
+  color: var(--color-dark);
 }
 
 .color-token-shape {
