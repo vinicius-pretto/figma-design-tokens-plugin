@@ -5,9 +5,11 @@ interface Props {
   type: string;
   value: string;
   onChange: any;
+  onBlur?: any;
   placeholder?: string;
   error?: any;
   touched?: any;
+  maxLength?: number;
 }
 
 const Input = ({
@@ -15,9 +17,11 @@ const Input = ({
   type,
   value,
   onChange,
+  onBlur,
   placeholder,
   error,
   touched,
+  maxLength,
 }: Props) => {
   const hasError = touched && error;
 
@@ -29,7 +33,9 @@ const Input = ({
         className="input__field"
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         placeholder={placeholder}
+        maxLength={maxLength}
       />
       <p className={hasError ? "error" : "hidden"}>{error}</p>
     </div>

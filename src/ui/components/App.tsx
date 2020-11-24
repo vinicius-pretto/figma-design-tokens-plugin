@@ -60,7 +60,7 @@ const App = () => {
         const tokenUpdated = {
           ...tokenSelected,
           name: values.name,
-          value: values.value,
+          value: `#${values.value}`,
         };
         updateToken(tokenUpdated);
         return;
@@ -70,7 +70,7 @@ const App = () => {
         id: uuid(),
         type: TokenType.COLOR,
         name: values.name,
-        value: values.value,
+        value: `#${values.value}`,
       };
       const tokens = colorTokens.concat(token);
 
@@ -102,7 +102,7 @@ const App = () => {
   };
 
   const onUpdateToken = (token: Token) => {
-    const values = { name: token.name, value: token.value };
+    const values = { name: token.name, value: token.value.slice(1, 7) };
     onOpenModal();
     formik.setValues(values);
     setTokenSelected(token);
@@ -165,6 +165,35 @@ const App = () => {
     );
   };
 
+  const formatToHex = (input: string) => {
+    if (input.length === 1) {
+      return input.repeat(6);
+    }
+    if (input.length === 2) {
+      return input.repeat(3);
+    }
+    if (input.length > 2 && input.length < 6) {
+      const r = input.charAt(0);
+      const g = input.charAt(1);
+      const b = input.charAt(2);
+      return `${r.repeat(2)}${g.repeat(2)}${b.repeat(2)}`;
+    }
+    return input;
+  };
+
+  const onTokenValueInput = (e) => {
+    const input = e.target.value.toUpperCase();
+    const inputFiltered = input.replace(/[^A-Z|0-9]/g, "");
+    e.target.value = inputFiltered;
+    formik.handleChange(e);
+  };
+
+  const onTokenValueBlur = (e) => {
+    const hexColor = formatToHex(e.target.value);
+    formik.setFieldValue("value", hexColor);
+    formik.handleBlur(e);
+  };
+
   return (
     <>
       <Navbar
@@ -190,8 +219,10 @@ const App = () => {
             <Input
               id="value"
               type="text"
+              maxLength={6}
               value={formik.values.value}
-              onChange={formik.handleChange}
+              onChange={onTokenValueInput}
+              onBlur={onTokenValueBlur}
               error={formik.errors.value}
               touched={formik.touched.value}
               placeholder="#cc0000"

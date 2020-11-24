@@ -10,6 +10,7 @@ describe("Input", () => {
         type="text"
         value="#cc0000"
         onChange={jest.fn()}
+        onBlur={jest.fn()}
         placeholder="color-primary"
       />
     );
