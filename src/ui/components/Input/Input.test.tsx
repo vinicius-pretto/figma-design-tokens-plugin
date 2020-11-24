@@ -7,6 +7,7 @@ describe("Input", () => {
     const { asFragment } = render(
       <Input
         id="name"
+        type="text"
         value="#cc0000"
         onChange={jest.fn()}
         placeholder="color-primary"

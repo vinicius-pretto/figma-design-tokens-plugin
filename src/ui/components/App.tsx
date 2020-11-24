@@ -1,6 +1,8 @@
 import * as React from "react";
 import { v4 as uuid } from "uuid";
 import * as _ from "lodash";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import "../styles/main.css";
 import UiEventType from "../../consts/UIEventType";
@@ -12,7 +14,6 @@ import Navbar from "./Navbar/Navbar";
 import Input from "./Input/Input";
 import Tab from "../../consts/Tab";
 import TokensSection from "./TokensSection";
-
 interface Token {
   id: string;
   type: TokenType;
@@ -21,8 +22,6 @@ interface Token {
 }
 
 const App = () => {
-  const [tokenName, setTokenName] = React.useState("");
-  const [tokenValue, setTokenValue] = React.useState("");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [colorTokens, setColorTokens] = React.useState([]);
   const [tokenSelected, setTokenSelected] = React.useState({});
@@ -40,55 +39,72 @@ const App = () => {
     };
   }, []);
 
-  const updateToken = (token) => {
-    const tokenUpdated = {
-      id: token.id,
-      type: token.type,
-      name: tokenName,
-      value: tokenValue,
-    };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      value: "",
+    },
+    validationSchema: yup.object().shape({
+      name: yup
+        .string()
+        .required("Required")
+        .max(48, "Maximum 48 characters")
+        .matches(
+          /^[a-zA-Z]{1,1}[a-zA-Z0-9\-\_]*$/,
+          "Must start with a letter and contain only letters, numbers, hyphens (-), and underscores (_)"
+        ),
+      value: yup.string().required("Required"),
+    }),
+    onSubmit: (values) => {
+      if (!_.isEmpty(tokenSelected)) {
+        const tokenUpdated = {
+          ...tokenSelected,
+          name: values.name,
+          value: values.value,
+        };
+        updateToken(tokenUpdated);
+        return;
+      }
 
+      const token = {
+        id: uuid(),
+        type: TokenType.COLOR,
+        name: values.name,
+        value: values.value,
+      };
+      const tokens = colorTokens.concat(token);
+
+      onCloseModal();
+      clearFields();
+      saveTokens(tokens);
+    },
+  });
+
+  const updateToken = (token) => {
     const colorTokensCopy = _.cloneDeep(colorTokens);
     const index = _.findIndex(colorTokensCopy, ["id", token.id]);
-    colorTokensCopy.splice(index, 1, tokenUpdated);
+    colorTokensCopy.splice(index, 1, token);
 
     saveTokens(colorTokensCopy);
-    setTokenSelected({});
     clearFields();
     onCloseModal();
-    tokenMessenger.postUpdateColorTokenMessage(tokenUpdated);
-  };
-
-  const onSubmitColorToken = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!_.isEmpty(tokenSelected)) {
-      updateToken(tokenSelected);
-      return;
-    }
-
-    const token = {
-      id: uuid(),
-      type: TokenType.COLOR,
-      name: tokenName,
-      value: tokenValue,
-    };
-    const tokens = colorTokens.concat(token);
-
-    onCloseModal();
-    clearFields();
-    saveTokens(tokens);
+    tokenMessenger.postUpdateColorTokenMessage(token);
   };
 
   const clearFields = () => {
-    setTokenName("");
-    setTokenValue("");
+    setTokenSelected({});
+    formik.resetForm();
+  };
+
+  const onCreate = () => {
+    clearFields();
+    onOpenModal();
   };
 
   const onUpdateToken = (token: Token) => {
+    const values = { name: token.name, value: token.value };
     onOpenModal();
-    setTokenName(token.name);
-    setTokenValue(token.value);
+    formik.setValues(values);
     setTokenSelected(token);
   };
 
@@ -142,7 +158,7 @@ const App = () => {
       <Tokens
         title="Colors"
         tokens={colorTokens}
-        onCreate={onOpenModal}
+        onCreate={onCreate}
         onUpdate={onUpdateToken}
         message="No color tokens"
       />
@@ -160,18 +176,24 @@ const App = () => {
         {renderTokensSection()}
 
         <Modal title="Colors" isOpen={isModalOpen} onClose={onCloseModal}>
-          <form onSubmit={onSubmitColorToken}>
+          <form onSubmit={formik.handleSubmit}>
             <Input
               id="name"
-              value={tokenName}
-              onChange={(e) => setTokenName(e.target.value)}
+              type="text"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.errors.name}
+              touched={formik.touched.name}
               placeholder="color-primary"
             />
 
             <Input
               id="value"
-              value={tokenValue}
-              onChange={(e) => setTokenValue(e.target.value)}
+              type="text"
+              value={formik.values.value}
+              onChange={formik.handleChange}
+              error={formik.errors.value}
+              touched={formik.touched.value}
               placeholder="#cc0000"
             />
 

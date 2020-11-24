@@ -108,3 +108,13 @@ a {
   font-family: inherit;
   font-size: inherit;
 }
+
+.error {
+  margin-top: var(--spacing-xs);
+  margin-bottom: 0;
+  color: var(--color-danger);
+}
+
+.form-group {
+  min-height: 48px;
+}
