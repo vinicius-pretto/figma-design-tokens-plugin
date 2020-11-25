@@ -12,18 +12,6 @@ interface Props {
 }
 
 const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
-  const onMouseEnter = (tokenId: string) => {
-    document
-      .querySelector(`#btn-${tokenId}`)
-      .classList.remove("visibility-hidden");
-  };
-
-  const onMouseLeave = (tokenId: string) => {
-    document
-      .querySelector(`#btn-${tokenId}`)
-      .classList.add("visibility-hidden");
-  };
-
   return (
     <section className="border-bottom p-sm">
       <div className="tokens-section-header">
@@ -47,9 +35,7 @@ const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
           {tokens.map((token: Token) => (
             <div
               key={token.id}
-              className="d-flex flex-row align-items-center justify-content-between w-100"
-              onMouseEnter={() => onMouseEnter(token.id)}
-              onMouseLeave={() => onMouseLeave(token.id)}
+              className="d-flex flex-row align-items-center justify-content-between w-100 color-token-container"
             >
               <button
                 className="color-token"
@@ -63,8 +49,7 @@ const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
               </button>
 
               <div
-                id={`btn-${token.id}`}
-                className="icon-button"
+                className="icon-button visibility-hidden"
                 role="button"
                 aria-label="Edit"
                 tabIndex={0}

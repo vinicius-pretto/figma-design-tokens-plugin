@@ -118,3 +118,18 @@ a {
 .form-group {
   min-height: 48px;
 }
+
+.color-token-edit-btn {
+  visibility: hidden;
+  transition: all 0.2s ease-out;
+  opacity: 0;
+}
+
+.color-token-container:hover {
+  background-color: var(--color-blue-light);
+}
+
+.color-token-container:hover .visibility-hidden {
+  visibility: visible;
+  opacity: 1;
+}
