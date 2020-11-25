@@ -13,11 +13,15 @@ interface Props {
 
 const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
   const onMouseEnter = (tokenId: string) => {
-    document.querySelector(`#btn-${tokenId}`).classList.remove("hidden");
+    document
+      .querySelector(`#btn-${tokenId}`)
+      .classList.remove("visibility-hidden");
   };
 
   const onMouseLeave = (tokenId: string) => {
-    document.querySelector(`#btn-${tokenId}`).classList.add("hidden");
+    document
+      .querySelector(`#btn-${tokenId}`)
+      .classList.add("visibility-hidden");
   };
 
   return (

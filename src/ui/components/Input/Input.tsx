@@ -37,7 +37,7 @@ const Input = ({
         placeholder={placeholder}
         maxLength={maxLength}
       />
-      <p className={hasError ? "error" : "hidden"}>{error}</p>
+      <p className={hasError ? "error" : "visibility-hidden"}>{error}</p>
     </div>
   );
 };
