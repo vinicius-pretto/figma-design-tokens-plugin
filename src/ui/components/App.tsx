@@ -1,6 +1,9 @@
 import * as React from "react";
 import { v4 as uuid } from "uuid";
-import * as _ from "lodash";
+import _isEmpty from "lodash/isEmpty";
+import _cloneDeep from "lodash/cloneDeep";
+import _findIndex from "lodash/findIndex";
+import _set from "lodash/set";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
@@ -56,7 +59,7 @@ const App = () => {
       value: yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      if (!_.isEmpty(tokenSelected)) {
+      if (!_isEmpty(tokenSelected)) {
         const tokenUpdated = {
           ...tokenSelected,
           name: values.name,
@@ -81,8 +84,8 @@ const App = () => {
   });
 
   const updateToken = (token) => {
-    const colorTokensCopy = _.cloneDeep(colorTokens);
-    const index = _.findIndex(colorTokensCopy, ["id", token.id]);
+    const colorTokensCopy = _cloneDeep(colorTokens);
+    const index = _findIndex(colorTokensCopy, ["id", token.id]);
     colorTokensCopy.splice(index, 1, token);
 
     saveTokens(colorTokensCopy);
@@ -144,7 +147,7 @@ const App = () => {
     let jsonTokens = {};
 
     tokens.forEach((token) => {
-      _.set(jsonTokens, token.name, token.value);
+      _set(jsonTokens, token.name, token.value);
     });
     return JSON.stringify(jsonTokens, null, 2);
   };

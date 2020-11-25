@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as _ from "lodash";
+import _isEmpty from "lodash/isEmpty";
 import Token from "../../../consts/Token";
 import tokenMessenger from "../../messages/tokenMessenger";
 
@@ -36,7 +36,7 @@ const Tokens = ({
         </div>
       </div>
 
-      {_.isEmpty(tokens) ? (
+      {_isEmpty(tokens) ? (
         <p className="label my-0">{message}</p>
       ) : (
         <div className="d-flex flex-row flex-wrap">
