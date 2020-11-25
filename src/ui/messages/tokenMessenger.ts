@@ -42,9 +42,20 @@ const postUpdateColorTokenMessage = (token: Token) => {
   window.parent.postMessage(message, TARGET_ORIGIN);
 };
 
+const postDeleteColorTokenMessage = (tokenId: string) => {
+  const message = {
+    pluginMessage: {
+      type: EventType.DELETE_COLOR_TOKEN,
+      tokenId,
+    },
+  };
+  window.parent.postMessage(message, TARGET_ORIGIN);
+};
+
 export default {
   postGetTokensMessage,
   postSetTokensMessage,
   postSetColorTokenMessage,
   postUpdateColorTokenMessage,
+  postDeleteColorTokenMessage,
 };

@@ -33,6 +33,14 @@ function getNodeTokens(node: BaseNode): Array<object> {
   }
 }
 
+function setNodeTokens(node: BaseNode, tokens: any) {
+  node.setPluginData("tokens", JSON.stringify(tokens));
+}
+
+function setAllTokens(tokens) {
+  figma.root.setPluginData("tokens", JSON.stringify(tokens));
+}
+
 function getAllTokens() {
   try {
     const tokens = JSON.parse(figma.root.getPluginData("tokens"));
@@ -68,6 +76,29 @@ figma.ui.onmessage = (msg) => {
     nodes.forEach((node: BaseNode) => {
       setColorToken(node, msg.token);
     });
+
+    return;
+  }
+  if (msg.type === EventType.DELETE_COLOR_TOKEN) {
+    const nodes = figma.currentPage.findAll((node: BaseNode) => {
+      const tokens = getNodeTokens(node);
+      return tokens.some((token: Token) => token.id === msg.tokenId);
+    });
+
+    nodes.forEach((node: BaseNode) => {
+      const tokens = getNodeTokens(node);
+      const tokensUpdated = tokens.filter(
+        (token: Token) => token.id !== msg.tokenId
+      );
+      setNodeTokens(node, tokensUpdated);
+    });
+
+    const allTokens = getAllTokens();
+    const allTokensUpdated = allTokens.filter(
+      (token: Token) => token.id !== msg.tokenId
+    );
+
+    setAllTokens(allTokensUpdated);
 
     return;
   }

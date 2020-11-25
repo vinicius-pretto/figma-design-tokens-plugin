@@ -24,6 +24,7 @@ describe("Tokens", () => {
         tokens={tokens}
         onCreate={jest.fn()}
         onUpdate={jest.fn()}
+        onDelete={jest.fn()}
         message="No color tokens"
       />
     );

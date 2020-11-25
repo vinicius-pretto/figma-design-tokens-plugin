@@ -108,6 +108,11 @@ const App = () => {
     setTokenSelected(token);
   };
 
+  const onDeleteToken = (tokenId: string) => {
+    tokenMessenger.postDeleteColorTokenMessage(tokenId);
+    tokenMessenger.postGetTokensMessage();
+  };
+
   const saveTokens = (tokens) => {
     tokenMessenger.postSetTokensMessage(tokens);
     setColorTokens(tokens);
@@ -160,6 +165,7 @@ const App = () => {
         tokens={colorTokens}
         onCreate={onCreate}
         onUpdate={onUpdateToken}
+        onDelete={onDeleteToken}
         message="No color tokens"
       />
     );

@@ -8,10 +8,18 @@ interface Props {
   tokens: Array<object>;
   onCreate: any;
   onUpdate: any;
+  onDelete: any;
   message: string;
 }
 
-const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
+const Tokens = ({
+  title,
+  tokens,
+  onCreate,
+  onUpdate,
+  onDelete,
+  message,
+}: Props) => {
   return (
     <section className="border-bottom p-sm">
       <div className="tokens-section-header">
@@ -48,14 +56,26 @@ const Tokens = ({ title, tokens, onCreate, onUpdate, message }: Props) => {
                 <span className="mr-sm">{token.name}</span>
               </button>
 
-              <div
-                className="icon-button visibility-hidden"
-                role="button"
-                aria-label="Edit"
-                tabIndex={0}
-                onClick={() => onUpdate(token)}
-              >
-                <div className="icon icon--adjust"></div>
+              <div className="d-flex flex-row">
+                <div
+                  className="icon-button visibility-hidden"
+                  role="button"
+                  aria-label="Edit"
+                  tabIndex={0}
+                  onClick={() => onUpdate(token)}
+                >
+                  <div className="icon icon--adjust"></div>
+                </div>
+
+                <div
+                  className="icon-button visibility-hidden"
+                  role="button"
+                  aria-label="Delete"
+                  tabIndex={0}
+                  onClick={() => onDelete(token.id)}
+                >
+                  <div className="icon icon--trash"></div>
+                </div>
               </div>
             </div>
           ))}
