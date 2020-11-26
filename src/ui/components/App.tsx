@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 import _isEmpty from "lodash/isEmpty";
 import _cloneDeep from "lodash/cloneDeep";
 import _findIndex from "lodash/findIndex";
-import _set from "lodash/set";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import UiEventType from "../../consts/UIEventType";
@@ -14,13 +13,9 @@ import Tokens from "./Tokens/Tokens";
 import Navbar from "./Navbar/Navbar";
 import Input from "./Input/Input";
 import Tab from "../../consts/Tab";
+import Token from "../../consts/Token";
 import TokensSection from "./TokensSection";
-interface Token {
-  id: string;
-  type: TokenType;
-  name: string;
-  value: string;
-}
+import tokensParser from "../parsers/tokensParser";
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -127,38 +122,15 @@ const App = () => {
     setIsModalOpen(false);
   };
 
-  const parseTokensToCSS = (tokens) => {
-    const cssTokens = tokens
-      .map((token: Token) => `  --${token.name}: ${token.value};`)
-      .join("\n");
-
-    return `:root {\n${cssTokens}\n}`;
-  };
-
-  const parseTokensToSCSS = (tokens) => {
-    return tokens
-      .map((token: Token) => `$${token.name}: ${token.value};`)
-      .join("\n");
-  };
-
-  const parseTokensToJSON = (tokens) => {
-    let jsonTokens = {};
-
-    tokens.forEach((token) => {
-      _set(jsonTokens, token.name, token.value);
-    });
-    return JSON.stringify(jsonTokens, null, 2);
-  };
-
   const renderTokensSection = () => {
     if (tabSelected === Tab.CSS) {
-      return <TokensSection tokens={parseTokensToCSS(colorTokens)} />;
+      return <TokensSection tokens={tokensParser.toCSS(colorTokens)} />;
     }
     if (tabSelected === Tab.SCSS) {
-      return <TokensSection tokens={parseTokensToSCSS(colorTokens)} />;
+      return <TokensSection tokens={tokensParser.toSCSS(colorTokens)} />;
     }
     if (tabSelected === Tab.JSON) {
-      return <TokensSection tokens={parseTokensToJSON(colorTokens)} />;
+      return <TokensSection tokens={tokensParser.toJSON(colorTokens)} />;
     }
     return (
       <Tokens
