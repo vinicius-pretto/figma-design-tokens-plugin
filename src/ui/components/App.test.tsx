@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, waitFor, screen } from "@testing-library/react";
+import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 import Tab from "../../consts/Tab";
@@ -13,6 +13,7 @@ jest.mock("../messages/tokenMessenger", () => {
   return {
     postGetTokensMessage: jest.fn(),
     postSetTokensMessage: jest.fn(),
+    postUpdateColorTokenMessage: jest.fn(),
   };
 });
 
@@ -40,7 +41,7 @@ describe("App", () => {
       userEvent.click(screen.getByText("CSS"));
 
       expect(screen.getByTestId("tokens")).toHaveTextContent(
-        ":root { --color-dark: #222; --color-yellow: #ccc000; }"
+        ":root { --color-dark: #222222; --color-yellow: #ccc000; }"
       );
     });
 
@@ -48,7 +49,7 @@ describe("App", () => {
       userEvent.click(screen.getByText("SCSS"));
 
       expect(screen.getByTestId("tokens")).toHaveTextContent(
-        "$color-dark: #222; $color-yellow: #ccc000;"
+        "$color-dark: #222222; $color-yellow: #ccc000;"
       );
     });
 
@@ -56,7 +57,7 @@ describe("App", () => {
       userEvent.click(screen.getByText("JSON"));
 
       expect(screen.getByTestId("tokens")).toHaveTextContent(
-        '"color-dark": "#222", "color-yellow": "#ccc000" }'
+        '"color-dark": "#222222", "color-yellow": "#ccc000" }'
       );
     });
   });
@@ -121,6 +122,54 @@ describe("App", () => {
             value: "#CC0000",
           },
         ]);
+      });
+    });
+  });
+
+  describe("edit token", () => {
+    it("update token", async () => {
+      render(<App />);
+
+      postMessage({
+        type: UiEventType.GET_TOKENS,
+        values: tokens,
+      });
+
+      const editButton = screen.getByRole("button", {
+        name: /edit color-dark/i,
+      });
+
+      userEvent.hover(screen.getByText("color-dark"));
+      await waitFor(() => userEvent.click(editButton));
+
+      const inputName = screen.getByPlaceholderText("color-primary");
+      const inputValue = screen.getByPlaceholderText("#cc0000");
+      const submitButton = screen.getByRole("button", { name: /save/i });
+
+      expect(inputName).toHaveValue("color-dark");
+      expect(inputValue).toHaveValue("222222");
+
+      await waitFor(() =>
+        fireEvent.change(inputName, { target: { value: "color-white" } })
+      );
+      await waitFor(() =>
+        fireEvent.change(inputValue, { target: { value: "FFFFFF" } })
+      );
+      await waitFor(() => userEvent.click(submitButton));
+
+      expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledTimes(1);
+      expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledWith([
+        { ...tokens[0], name: "color-white", value: "#FFFFFF" },
+        tokens[1],
+      ]);
+      expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledTimes(
+        1
+      );
+      expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledWith({
+        id: "99dd84d3-a355-4a3b-a061-6bab7a8bf285",
+        name: "color-white",
+        type: "color",
+        value: "#FFFFFF",
       });
     });
   });

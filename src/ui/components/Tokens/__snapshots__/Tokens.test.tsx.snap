@@ -48,7 +48,7 @@ exports[`Tokens snapshot 1`] = `
           class="d-flex flex-row"
         >
           <div
-            aria-label="Edit"
+            aria-label="Edit color-dark"
             class="icon-button visibility-hidden"
             role="button"
             tabindex="0"
@@ -89,7 +89,7 @@ exports[`Tokens snapshot 1`] = `
           class="d-flex flex-row"
         >
           <div
-            aria-label="Edit"
+            aria-label="Edit color-yellow"
             class="icon-button visibility-hidden"
             role="button"
             tabindex="0"

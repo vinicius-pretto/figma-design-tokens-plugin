@@ -61,7 +61,7 @@ const Tokens = ({
                 <div
                   className="icon-button visibility-hidden"
                   role="button"
-                  aria-label="Edit"
+                  aria-label={`Edit ${token.name}`}
                   tabIndex={0}
                   onClick={() => onUpdate(token)}
                 >
