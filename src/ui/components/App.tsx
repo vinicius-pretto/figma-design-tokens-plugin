@@ -6,8 +6,6 @@ import _findIndex from "lodash/findIndex";
 import _set from "lodash/set";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import "figma-plugin-ds/dist/figma-plugin-ds.css";
-import "../styles/main.css";
 import UiEventType from "../../consts/UIEventType";
 import tokenMessenger from "../messages/tokenMessenger";
 import TokenType from "../../consts/TokenType";

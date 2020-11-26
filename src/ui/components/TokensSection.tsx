@@ -31,7 +31,9 @@ const TokensSection = ({ tokens }) => {
             Copied to clipboard!
           </p>
         </div>
-        <pre id="tokens">{tokens}</pre>
+        <pre data-testid="tokens" id="tokens">
+          {tokens}
+        </pre>
       </div>
     </div>
   );
