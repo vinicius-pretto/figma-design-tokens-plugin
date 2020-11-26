@@ -16,6 +16,7 @@ exports[`Tokens snapshot 1`] = `
       <div
         aria-label="Add token"
         class="icon-button"
+        data-testid="add-token-btn"
         role="button"
         tabindex="0"
       >
@@ -110,6 +111,40 @@ exports[`Tokens snapshot 1`] = `
         </div>
       </div>
     </div>
+  </section>
+</DocumentFragment>
+`;
+
+exports[`Tokens snapshot initial state 1`] = `
+<DocumentFragment>
+  <section
+    class="border-bottom p-sm"
+  >
+    <div
+      class="tokens-section-header"
+    >
+      <h3
+        class="section-title"
+      >
+        Colors
+      </h3>
+      <div
+        aria-label="Add token"
+        class="icon-button"
+        data-testid="add-token-btn"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="icon icon--plus"
+        />
+      </div>
+    </div>
+    <p
+      class="label my-0"
+    >
+      No color tokens
+    </p>
   </section>
 </DocumentFragment>
 `;

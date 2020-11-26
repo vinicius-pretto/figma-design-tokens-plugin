@@ -3,6 +3,21 @@ import { render } from "@testing-library/react";
 import Tokens from "./Tokens";
 
 describe("Tokens", () => {
+  it("snapshot initial state", () => {
+    const tokens = [];
+    const { asFragment } = render(
+      <Tokens
+        title="Colors"
+        tokens={tokens}
+        onCreate={jest.fn()}
+        onUpdate={jest.fn()}
+        onDelete={jest.fn()}
+        message="No color tokens"
+      />
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
+
   it("snapshot", () => {
     const tokens = [
       {

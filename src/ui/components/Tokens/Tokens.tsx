@@ -31,6 +31,7 @@ const Tokens = ({
           aria-label="Add token"
           tabIndex={0}
           onClick={onCreate}
+          data-testid="add-token-btn"
         >
           <div className="icon icon--plus"></div>
         </div>
