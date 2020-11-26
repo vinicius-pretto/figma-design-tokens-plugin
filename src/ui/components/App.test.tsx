@@ -22,52 +22,40 @@ describe("App", () => {
   });
 
   describe("tabSelected", () => {
-    const eventMessage = {
-      type: UiEventType.GET_TOKENS,
-      values: tokens,
-    };
+    beforeEach(() => {
+      render(<App />);
+
+      postMessage({
+        type: UiEventType.GET_TOKENS,
+        values: tokens,
+      });
+    });
 
     it(`renders tokens section when tab selected is ${Tab.TOKENS}`, () => {
-      const { getByText } = render(<App />);
-
-      postMessage(eventMessage);
-
-      expect(getByText("color-dark")).toBeInTheDocument();
-      expect(getByText("color-yellow")).toBeInTheDocument();
+      expect(screen.getByText("color-dark")).toBeInTheDocument();
+      expect(screen.getByText("color-yellow")).toBeInTheDocument();
     });
 
     it(`renders CSS section when tab selected is ${Tab.CSS}`, () => {
-      const { getByText, getByTestId } = render(<App />);
+      userEvent.click(screen.getByText("CSS"));
 
-      postMessage(eventMessage);
-
-      userEvent.click(getByText("CSS"));
-
-      expect(getByTestId("tokens")).toHaveTextContent(
+      expect(screen.getByTestId("tokens")).toHaveTextContent(
         ":root { --color-dark: #222; --color-yellow: #ccc000; }"
       );
     });
 
     it(`renders SCSS section when tab selected is ${Tab.SCSS}`, () => {
-      const { getByText, getByTestId } = render(<App />);
+      userEvent.click(screen.getByText("SCSS"));
 
-      postMessage(eventMessage);
-
-      userEvent.click(getByText("SCSS"));
-
-      expect(getByTestId("tokens")).toHaveTextContent(
+      expect(screen.getByTestId("tokens")).toHaveTextContent(
         "$color-dark: #222; $color-yellow: #ccc000;"
       );
     });
 
     it(`renders JSON section when tab selected is ${Tab.JSON}`, () => {
-      const { getByText, getByTestId } = render(<App />);
+      userEvent.click(screen.getByText("JSON"));
 
-      postMessage(eventMessage);
-
-      userEvent.click(getByText("JSON"));
-
-      expect(getByTestId("tokens")).toHaveTextContent(
+      expect(screen.getByTestId("tokens")).toHaveTextContent(
         '"color-dark": "#222", "color-yellow": "#ccc000" }'
       );
     });
