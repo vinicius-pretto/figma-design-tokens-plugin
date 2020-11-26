@@ -58,7 +58,7 @@ exports[`Tokens snapshot 1`] = `
             />
           </div>
           <div
-            aria-label="Delete"
+            aria-label="Delete color-dark"
             class="icon-button visibility-hidden"
             role="button"
             tabindex="0"
@@ -99,7 +99,7 @@ exports[`Tokens snapshot 1`] = `
             />
           </div>
           <div
-            aria-label="Delete"
+            aria-label="Delete color-yellow"
             class="icon-button visibility-hidden"
             role="button"
             tabindex="0"

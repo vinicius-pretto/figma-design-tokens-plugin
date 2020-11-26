@@ -14,6 +14,7 @@ jest.mock("../messages/tokenMessenger", () => {
     postGetTokensMessage: jest.fn(),
     postSetTokensMessage: jest.fn(),
     postUpdateColorTokenMessage: jest.fn(),
+    postDeleteColorTokenMessage: jest.fn(),
   };
 });
 
@@ -126,51 +127,69 @@ describe("App", () => {
     });
   });
 
-  describe("edit token", () => {
-    it("update token", async () => {
-      render(<App />);
+  it("update token", async () => {
+    render(<App />);
 
-      postMessage({
-        type: UiEventType.GET_TOKENS,
-        values: tokens,
-      });
-
-      const editButton = screen.getByRole("button", {
-        name: /edit color-dark/i,
-      });
-
-      userEvent.hover(screen.getByText("color-dark"));
-      await waitFor(() => userEvent.click(editButton));
-
-      const inputName = screen.getByPlaceholderText("color-primary");
-      const inputValue = screen.getByPlaceholderText("#cc0000");
-      const submitButton = screen.getByRole("button", { name: /save/i });
-
-      expect(inputName).toHaveValue("color-dark");
-      expect(inputValue).toHaveValue("222222");
-
-      await waitFor(() =>
-        fireEvent.change(inputName, { target: { value: "color-white" } })
-      );
-      await waitFor(() =>
-        fireEvent.change(inputValue, { target: { value: "FFFFFF" } })
-      );
-      await waitFor(() => userEvent.click(submitButton));
-
-      expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledTimes(1);
-      expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledWith([
-        { ...tokens[0], name: "color-white", value: "#FFFFFF" },
-        tokens[1],
-      ]);
-      expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledTimes(
-        1
-      );
-      expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledWith({
-        id: "99dd84d3-a355-4a3b-a061-6bab7a8bf285",
-        name: "color-white",
-        type: "color",
-        value: "#FFFFFF",
-      });
+    postMessage({
+      type: UiEventType.GET_TOKENS,
+      values: tokens,
     });
+
+    const editButton = screen.getByRole("button", {
+      name: /edit color-dark/i,
+    });
+
+    userEvent.hover(screen.getByText("color-dark"));
+    await waitFor(() => userEvent.click(editButton));
+
+    const inputName = screen.getByPlaceholderText("color-primary");
+    const inputValue = screen.getByPlaceholderText("#cc0000");
+    const submitButton = screen.getByRole("button", { name: /save/i });
+
+    expect(inputName).toHaveValue("color-dark");
+    expect(inputValue).toHaveValue("222222");
+
+    await waitFor(() =>
+      fireEvent.change(inputName, { target: { value: "color-white" } })
+    );
+    await waitFor(() =>
+      fireEvent.change(inputValue, { target: { value: "FFFFFF" } })
+    );
+    await waitFor(() => userEvent.click(submitButton));
+
+    expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledWith([
+      { ...tokens[0], name: "color-white", value: "#FFFFFF" },
+      tokens[1],
+    ]);
+    expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledWith({
+      id: "99dd84d3-a355-4a3b-a061-6bab7a8bf285",
+      name: "color-white",
+      type: "color",
+      value: "#FFFFFF",
+    });
+  });
+
+  it("delete token", async () => {
+    render(<App />);
+
+    postMessage({
+      type: UiEventType.GET_TOKENS,
+      values: tokens,
+    });
+
+    const deleteButton = screen.getByRole("button", {
+      name: /delete color-yellow/i,
+    });
+
+    userEvent.hover(screen.getByText("color-yellow"));
+    await waitFor(() => userEvent.click(deleteButton));
+
+    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledWith(
+      "757e0617-d68f-498c-af84-99579f0783d4"
+    );
+    expect(tokenMessenger.postGetTokensMessage).toHaveBeenCalledTimes(2);
   });
 });

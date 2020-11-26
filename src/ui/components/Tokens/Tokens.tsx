@@ -71,7 +71,7 @@ const Tokens = ({
                 <div
                   className="icon-button visibility-hidden"
                   role="button"
-                  aria-label="Delete"
+                  aria-label={`Delete ${token.name}`}
                   tabIndex={0}
                   onClick={() => onDelete(token.id)}
                 >
