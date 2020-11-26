@@ -1,6 +1,6 @@
 {
   "name": "figma-design-tokens-plugin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Figma Design Tokens plugin",
   "main": "index.js",
   "scripts": {
