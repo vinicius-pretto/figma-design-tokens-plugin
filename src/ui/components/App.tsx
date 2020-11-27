@@ -10,18 +10,22 @@ import TokenType from "../../consts/TokenType";
 import Modal from "./Modal/Modal";
 import Tokens from "./Tokens/Tokens";
 import Navbar from "./Navbar/Navbar";
-import Input from "./Input/Input";
 import Tab from "../../consts/Tab";
 import Token from "../../consts/Token";
 import TokensSection from "./TokensSection";
 import tokensParser from "../parsers/tokensParser";
-import validationSchema from "./validationSchema";
+import validationSchema from "./Tokens/ColorsForm/validationSchema";
+import ColorsForm from "./Tokens/ColorsForm/ColorsForm";
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [colorTokens, setColorTokens] = React.useState([]);
   const [tokenSelected, setTokenSelected] = React.useState({});
   const [tabSelected, setTabSelected] = React.useState(Tab.TOKENS);
+  const initialValues = {
+    name: "",
+    value: "",
+  };
 
   React.useEffect(() => {
     tokenMessenger.postGetTokensMessage();
@@ -35,35 +39,34 @@ const App = () => {
     };
   }, []);
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      value: "",
-    },
-    validationSchema,
-    onSubmit: (values) => {
-      if (!_isEmpty(tokenSelected)) {
-        const tokenUpdated = {
-          ...tokenSelected,
-          name: values.name,
-          value: `#${values.value}`,
-        };
-        updateToken(tokenUpdated);
-        return;
-      }
-
-      const token = {
-        id: uuid(),
-        type: TokenType.COLOR,
+  const onSubmit = (values) => {
+    if (!_isEmpty(tokenSelected)) {
+      const tokenUpdated = {
+        ...tokenSelected,
         name: values.name,
         value: `#${values.value}`,
       };
-      const tokens = colorTokens.concat(token);
+      updateToken(tokenUpdated);
+      return;
+    }
 
-      onCloseModal();
-      clearFields();
-      saveTokens(tokens);
-    },
+    const token = {
+      id: uuid(),
+      type: TokenType.COLOR,
+      name: values.name,
+      value: `#${values.value}`,
+    };
+    const tokens = colorTokens.concat(token);
+
+    onCloseModal();
+    clearFields();
+    saveTokens(tokens);
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
   });
 
   const updateToken = (token) => {
@@ -134,35 +137,6 @@ const App = () => {
     );
   };
 
-  const formatToHex = (input: string) => {
-    if (input.length === 1) {
-      return input.repeat(6);
-    }
-    if (input.length === 2) {
-      return input.repeat(3);
-    }
-    if (input.length > 2 && input.length < 6) {
-      const r = input.charAt(0);
-      const g = input.charAt(1);
-      const b = input.charAt(2);
-      return `${r.repeat(2)}${g.repeat(2)}${b.repeat(2)}`;
-    }
-    return input;
-  };
-
-  const onTokenValueInput = (e) => {
-    const input = e.target.value.toUpperCase();
-    const inputFiltered = input.replace(/[^A-Z|0-9]/g, "");
-    e.target.value = inputFiltered;
-    formik.handleChange(e);
-  };
-
-  const onTokenValueBlur = (e) => {
-    const hexColor = formatToHex(e.target.value);
-    formik.setFieldValue("value", hexColor);
-    formik.handleBlur(e);
-  };
-
   return (
     <>
       <Navbar
@@ -174,35 +148,7 @@ const App = () => {
         {renderTokensSection()}
 
         <Modal title="Colors" isOpen={isModalOpen} onClose={onCloseModal}>
-          <form onSubmit={formik.handleSubmit}>
-            <Input
-              id="name"
-              type="text"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.errors.name}
-              touched={formik.touched.name}
-              placeholder="color-primary"
-            />
-
-            <Input
-              id="value"
-              type="text"
-              maxLength={6}
-              value={formik.values.value}
-              onChange={onTokenValueInput}
-              onBlur={onTokenValueBlur}
-              error={formik.errors.value}
-              touched={formik.touched.value}
-              placeholder="#cc0000"
-            />
-
-            <div className="d-flex justify-content-end">
-              <button type="submit" className="button button--primary">
-                Save
-              </button>
-            </div>
-          </form>
+          <ColorsForm onSubmit={formik.handleSubmit} formik={formik} />
         </Modal>
       </main>
     </>
