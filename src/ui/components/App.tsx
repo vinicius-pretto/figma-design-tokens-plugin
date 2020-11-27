@@ -12,10 +12,9 @@ import Tokens from "./Tokens/Tokens";
 import Navbar from "./Navbar/Navbar";
 import Tab from "../../consts/Tab";
 import Token from "../../consts/Token";
-import TokensSection from "./TokensSection";
-import tokensParser from "../parsers/tokensParser";
 import validationSchema from "./Tokens/ColorsForm/validationSchema";
 import ColorsForm from "./Tokens/ColorsForm/ColorsForm";
+import TokensClipboard from "./TokensClipboard";
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -115,28 +114,6 @@ const App = () => {
     setIsModalOpen(false);
   };
 
-  const renderTokensSection = () => {
-    if (tabSelected === Tab.CSS) {
-      return <TokensSection tokens={tokensParser.toCSS(colorTokens)} />;
-    }
-    if (tabSelected === Tab.SCSS) {
-      return <TokensSection tokens={tokensParser.toSCSS(colorTokens)} />;
-    }
-    if (tabSelected === Tab.JSON) {
-      return <TokensSection tokens={tokensParser.toJSON(colorTokens)} />;
-    }
-    return (
-      <Tokens
-        title="Colors"
-        tokens={colorTokens}
-        onCreate={onCreate}
-        onUpdate={onUpdateToken}
-        onDelete={onDeleteToken}
-        message="No color tokens"
-      />
-    );
-  };
-
   return (
     <>
       <Navbar
@@ -145,7 +122,18 @@ const App = () => {
       />
 
       <main>
-        {renderTokensSection()}
+        {tabSelected === Tab.TOKENS ? (
+          <Tokens
+            title="Colors"
+            tokens={colorTokens}
+            onCreate={onCreate}
+            onUpdate={onUpdateToken}
+            onDelete={onDeleteToken}
+            message="No color tokens"
+          />
+        ) : (
+          <TokensClipboard tokens={colorTokens} tokensFormat={tabSelected} />
+        )}
 
         <Modal title="Colors" isOpen={isModalOpen} onClose={onCloseModal}>
           <ColorsForm onSubmit={formik.handleSubmit} formik={formik} />

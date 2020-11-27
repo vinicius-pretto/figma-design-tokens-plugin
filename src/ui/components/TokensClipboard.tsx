@@ -1,11 +1,13 @@
 import * as React from "react";
+import tokensParser from "../parsers/tokensParser";
 
-const TokensSection = ({ tokens }) => {
+const TokensClipboard = (props) => {
   const [isCopied, setIsCopied] = React.useState(false);
+  const tokens = tokensParser.parse(props.tokens, props.tokensFormat);
 
   const copyText = () => {
     const textArea = document.createElement("textarea");
-    textArea.value = tokens;
+    textArea.value = tokens.toString();
     document.body.appendChild(textArea);
     textArea.select();
     document.execCommand("copy");
@@ -39,4 +41,4 @@ const TokensSection = ({ tokens }) => {
   );
 };
 
-export default TokensSection;
+export default TokensClipboard;
