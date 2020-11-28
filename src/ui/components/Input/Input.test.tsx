@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render } from "@testing-library/react";
+import { render } from "../../../testUtils";
 import Input from "./Input";
 
 describe("Input", () => {

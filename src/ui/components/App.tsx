@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
 import _isEmpty from "lodash/isEmpty";
 import _cloneDeep from "lodash/cloneDeep";
@@ -15,10 +16,13 @@ import Token from "../../consts/Token";
 import validationSchema from "./Tokens/ColorsForm/validationSchema";
 import ColorsForm from "./Tokens/ColorsForm/ColorsForm";
 import TokensClipboard from "./TokensClipboard";
+import ActionType from "../../consts/ActionType";
+import { AppState } from "../redux/store";
 
 const App = () => {
+  const colorTokens = useSelector((state: AppState) => state.tokens);
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [colorTokens, setColorTokens] = React.useState([]);
   const [tokenSelected, setTokenSelected] = React.useState({});
   const [tabSelected, setTabSelected] = React.useState(Tab.TOKENS);
   const initialValues = {
@@ -33,7 +37,7 @@ const App = () => {
       const { type, values } = e.data.pluginMessage;
 
       if (type === UiEventType.GET_TOKENS) {
-        setColorTokens(values);
+        dispatch({ type: ActionType.SET_TOKENS, payload: values });
       }
     };
   }, []);
@@ -103,7 +107,7 @@ const App = () => {
 
   const saveTokens = (tokens) => {
     tokenMessenger.postSetTokensMessage(tokens);
-    setColorTokens(tokens);
+    dispatch({ type: ActionType.SET_TOKENS, payload: tokens });
   };
 
   const onOpenModal = () => {

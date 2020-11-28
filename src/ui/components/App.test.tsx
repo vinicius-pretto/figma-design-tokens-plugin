@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, waitFor, screen, fireEvent } from "@testing-library/react";
+import { render, waitFor, screen, fireEvent } from "../../testUtils";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 import Tab from "../../consts/Tab";
