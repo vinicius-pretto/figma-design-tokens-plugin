@@ -1,9 +1,11 @@
 import * as React from "react";
+import { useSelector } from "react-redux";
 import tokensParser from "../parsers/tokensParser";
 
 const TokensClipboard = (props) => {
+  const state = useSelector((state: any) => state);
   const [isCopied, setIsCopied] = React.useState(false);
-  const tokens = tokensParser.parse(props.tokens, props.tokensFormat);
+  const tokens = tokensParser.parse(state.tokens, props.tokensFormat);
 
   const copyText = () => {
     const textArea = document.createElement("textarea");

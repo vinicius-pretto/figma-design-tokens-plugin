@@ -11,7 +11,7 @@ export interface AppState {
   tokens: Token[];
 }
 
-const initialState: AppState = {
+export const initialState: AppState = {
   tokens: [],
 };
 
