@@ -3,6 +3,7 @@ import EventType from "../consts/EventType";
 import FigmaNodeType from "../consts/FigmaNodeType";
 import Token from "../consts/Token";
 import UiEventType from "../consts/UIEventType";
+import figmaHelpers from "./figmaHelpers";
 
 const uiOptions: ShowUIOptions = {
   width: 400,
@@ -34,15 +35,6 @@ async function setFontSizeToken(node: any, token: Token) {
   }
 }
 
-function getNodeTokens(node: BaseNode): Array<object> {
-  try {
-    const tokens = node.getPluginData("tokens");
-    return JSON.parse(tokens);
-  } catch {
-    return [];
-  }
-}
-
 function setNodeTokens(node: BaseNode, tokens: any) {
   node.setPluginData("tokens", JSON.stringify(tokens));
 }
@@ -58,13 +50,6 @@ function getAllTokens() {
   } catch {
     return [];
   }
-}
-
-function findAllNodesByTokenId(tokenId) {
-  return figma.currentPage.findAll((node: BaseNode) => {
-    const tokens = getNodeTokens(node);
-    return tokens.some((token: Token) => token.id === tokenId);
-  });
 }
 
 figma.ui.onmessage = (msg) => {
@@ -91,7 +76,7 @@ figma.ui.onmessage = (msg) => {
 
   if (msg.type === EventType.UPDATE_COLOR_TOKEN) {
     const nodes = figma.currentPage.findAll((node: BaseNode) => {
-      const tokens = getNodeTokens(node);
+      const tokens = figmaHelpers.getNodeTokens(node);
       return tokens.some((token: Token) => token.id === msg.token.id);
     });
     nodes.forEach((node: BaseNode) => {
@@ -110,7 +95,7 @@ figma.ui.onmessage = (msg) => {
   }
 
   if (msg.type === EventType.UPDATE_FONT_SIZE_TOKEN) {
-    const nodes = findAllNodesByTokenId(msg.payload.id);
+    const nodes = figmaHelpers.findAllNodesByTokenId(msg.payload.id);
 
     nodes.forEach((node: BaseNode) => {
       setFontSizeToken(node, msg.payload);
@@ -121,12 +106,12 @@ figma.ui.onmessage = (msg) => {
 
   if (msg.type === EventType.DELETE_COLOR_TOKEN) {
     const nodes = figma.currentPage.findAll((node: BaseNode) => {
-      const tokens = getNodeTokens(node);
+      const tokens = figmaHelpers.getNodeTokens(node);
       return tokens.some((token: Token) => token.id === msg.tokenId);
     });
 
     nodes.forEach((node: BaseNode) => {
-      const tokens = getNodeTokens(node);
+      const tokens = figmaHelpers.getNodeTokens(node);
       const tokensUpdated = tokens.filter(
         (token: Token) => token.id !== msg.tokenId
       );
