@@ -81,7 +81,7 @@ exports[`FontSizeTokens snapshot no color tokens 1`] = `
                 class="input__field"
                 id="value"
                 maxlength="6"
-                placeholder="16px"
+                placeholder="16"
                 type="text"
                 value=""
               />
@@ -267,7 +267,7 @@ exports[`FontSizeTokens snapshot with color tokens 1`] = `
                 class="input__field"
                 id="value"
                 maxlength="6"
-                placeholder="16px"
+                placeholder="16"
                 type="text"
                 value=""
               />

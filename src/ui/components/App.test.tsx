@@ -83,4 +83,26 @@ describe("App", () => {
     );
     expect(tokenMessenger.postGetTokensMessage).toHaveBeenCalledTimes(2);
   });
+
+  it("delete font size token", async () => {
+    render(<App />);
+
+    postMessage({
+      type: UiEventType.GET_TOKENS,
+      values: tokens,
+    });
+
+    const deleteButton = screen.getByRole("button", {
+      name: /delete font-size-base/i,
+    });
+
+    userEvent.hover(screen.getByText("font-size-base"));
+    await waitFor(() => userEvent.click(deleteButton));
+
+    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledWith(
+      "6552cefb-8e70-43ba-b6c7-432a8b8aa591"
+    );
+    expect(tokenMessenger.postGetTokensMessage).toHaveBeenCalledTimes(2);
+  });
 });

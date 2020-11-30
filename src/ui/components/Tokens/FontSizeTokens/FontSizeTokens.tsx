@@ -23,7 +23,6 @@ const FontSizeTokens = ({ tokens, onDelete }) => {
   };
 
   const onSubmit = (values) => {
-    console.log(".......tokens", tokens);
     const token = {
       id: uuid(),
       type: TokenType.FONT_SIZE,
