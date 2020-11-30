@@ -1,11 +1,20 @@
 import * as React from "react";
+import { useSelector } from "react-redux";
 import ColorTokens from "./ColorTokens/ColorTokens";
+import FontSizeTokens from "./FontSizeTokens/FontSizeTokens";
 interface Props {
   onDelete: any;
 }
 
 const Tokens = ({ onDelete }: Props) => {
-  return <ColorTokens onDelete={onDelete} />;
+  const tokens = useSelector((state: any) => state.tokens);
+
+  return (
+    <>
+      <ColorTokens tokens={tokens} onDelete={onDelete} />
+      <FontSizeTokens tokens={tokens} onDelete={onDelete} />
+    </>
+  );
 };
 
 export default Tokens;

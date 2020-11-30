@@ -48,6 +48,10 @@
   margin-right: var(--spacing-sm);
 }
 
+.mr-md {
+  margin-right: var(--spacing-md);
+}
+
 .mb-sm {
   margin-bottom: var(--spacing-sm);
 }

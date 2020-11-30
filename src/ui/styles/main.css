@@ -91,7 +91,10 @@ a {
   display: inline-block;
   background-color: var(--color-gray-light);
   border-radius: var(--border-radius-circle);
-  margin-right: var(--spacing-sm);
+}
+
+.font-token-shape {
+  font-size: 18px;
 }
 
 .highlight {

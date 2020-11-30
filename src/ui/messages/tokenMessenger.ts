@@ -32,6 +32,16 @@ const postSetColorTokenMessage = (token: Token) => {
   window.parent.postMessage(message, TARGET_ORIGIN);
 };
 
+const postMessage = ({ type, payload }) => {
+  const message = {
+    pluginMessage: {
+      type,
+      payload,
+    },
+  };
+  window.parent.postMessage(message, TARGET_ORIGIN);
+};
+
 const postUpdateColorTokenMessage = (token: Token) => {
   const message = {
     pluginMessage: {
@@ -58,4 +68,5 @@ export default {
   postSetColorTokenMessage,
   postUpdateColorTokenMessage,
   postDeleteColorTokenMessage,
+  postMessage,
 };

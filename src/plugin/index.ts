@@ -1,5 +1,6 @@
 import { hexToFigmaRGB } from "@figma-plugin/helpers";
 import EventType from "../consts/EventType";
+import FigmaNodeType from "../consts/FigmaNodeType";
 import Token from "../consts/Token";
 import UiEventType from "../consts/UIEventType";
 
@@ -21,6 +22,15 @@ function setColorToken(node: any, token: Token) {
     const tokens = JSON.stringify([token]);
     node.setPluginData("tokens", tokens);
     node.fills = fills;
+  }
+}
+
+async function setFontSizeToken(node: any, token: Token) {
+  if (node.type === FigmaNodeType.TEXT) {
+    await figma.loadFontAsync(node.fontName);
+    const tokens = JSON.stringify([token]);
+    node.setPluginData("tokens", tokens);
+    node.fontSize = Number(token.value);
   }
 }
 
@@ -65,6 +75,12 @@ figma.ui.onmessage = (msg) => {
   if (msg.type === EventType.SET_COLOR_TOKEN) {
     figma.currentPage.selection.forEach((node: any) => {
       setColorToken(node, msg.token);
+    });
+    return;
+  }
+  if (msg.type === EventType.SET_FONT_SIZE_TOKEN) {
+    figma.currentPage.selection.forEach((node: any) => {
+      setFontSizeToken(node, msg.payload);
     });
     return;
   }

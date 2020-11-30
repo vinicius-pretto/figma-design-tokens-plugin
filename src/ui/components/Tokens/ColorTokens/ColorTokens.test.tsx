@@ -21,9 +21,25 @@ describe("ColorTokens", () => {
     jest.clearAllMocks();
   });
 
+  describe("snapshot", () => {
+    it("no color tokens", () => {
+      const { asFragment } = render(
+        <ColorTokens tokens={[]} onDelete={jest.fn()} />
+      );
+      expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("with color tokens", () => {
+      const { asFragment } = render(
+        <ColorTokens tokens={tokens} onDelete={jest.fn()} />
+      );
+      expect(asFragment()).toMatchSnapshot();
+    });
+  });
+
   describe("form validation", () => {
     beforeEach(() => {
-      render(<ColorTokens onDelete={jest.fn()} />);
+      render(<ColorTokens tokens={[]} onDelete={jest.fn()} />);
 
       const addButton = screen.getByTestId("add-token-btn");
       userEvent.click(addButton);
@@ -86,10 +102,7 @@ describe("ColorTokens", () => {
   });
 
   it("update token", async () => {
-    const state = {
-      tokens,
-    };
-    render(<ColorTokens onDelete={jest.fn()} />, state);
+    render(<ColorTokens tokens={tokens} onDelete={jest.fn()} />);
 
     const editButton = screen.getByRole("button", {
       name: /edit color-dark/i,

@@ -1,20 +1,24 @@
 import * as React from "react";
+import EventType from "../../../../consts/EventType";
 import tokenMessenger from "../../../messages/tokenMessenger";
 
-const ColorToken = ({ token, onUpdate, onDelete }) => {
+const FontSizeToken = ({ token, onDelete }) => {
+  const onUpdate = (token) => {};
+
+  const setTokenStyle = () => {
+    tokenMessenger.postMessage({
+      type: EventType.SET_FONT_SIZE_TOKEN,
+      payload: token,
+    });
+  };
+
   return (
     <div
       key={token.id}
       className="d-flex flex-row align-items-center justify-content-between w-100 color-token-container"
     >
-      <button
-        className="color-token"
-        onClick={() => tokenMessenger.postSetColorTokenMessage(token)}
-      >
-        <span
-          className="mr-md color-token-shape"
-          style={{ backgroundColor: token.value }}
-        ></span>
+      <button className="color-token" onClick={setTokenStyle}>
+        <span className="mr-md font-token-shape">Ag</span>
         <span>{token.name}</span>
       </button>
 
@@ -43,4 +47,4 @@ const ColorToken = ({ token, onUpdate, onDelete }) => {
   );
 };
 
-export default ColorToken;
+export default FontSizeToken;

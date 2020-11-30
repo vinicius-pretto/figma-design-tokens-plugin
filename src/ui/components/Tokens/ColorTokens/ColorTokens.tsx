@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import { v4 as uuid } from "uuid";
 import _isEmpty from "lodash/isEmpty";
@@ -13,9 +13,11 @@ import validationSchema from "./validationSchema";
 import tokenMessenger from "../../../messages/tokenMessenger";
 import { storeTokens } from "../../../redux/actions";
 
-const ColorTokens = ({ onDelete }) => {
+const ColorTokens = ({ tokens, onDelete }) => {
+  const colorTokens = tokens.filter(
+    (token: Token) => token.type === TokenType.COLOR
+  );
   const dispatch = useDispatch();
-  const colorTokens = useSelector((state: any) => state.tokens);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [tokenSelected, setTokenSelected] = React.useState({});
   const initialValues = {
@@ -40,11 +42,11 @@ const ColorTokens = ({ onDelete }) => {
       name: values.name,
       value: `#${values.value}`,
     };
-    const tokens = colorTokens.concat(token);
+    const tokensUpdated = tokens.concat(token);
 
     onCloseModal();
     clearFields();
-    dispatch(storeTokens(tokens));
+    dispatch(storeTokens(tokensUpdated));
   };
 
   const formik = useFormik({
@@ -79,7 +81,7 @@ const ColorTokens = ({ onDelete }) => {
   };
 
   const updateToken = (token) => {
-    const colorTokensCopy = _cloneDeep(colorTokens);
+    const colorTokensCopy = _cloneDeep(tokens);
     const index = _findIndex(colorTokensCopy, ["id", token.id]);
     colorTokensCopy.splice(index, 1, token);
 
