@@ -30,6 +30,79 @@ exports[`BorderRadiusTokens snapshot no color tokens 1`] = `
     >
       No border radius tokens
     </p>
+    <div
+      class=""
+      id="modal"
+    >
+      <div
+        class="modal-dialog"
+      >
+        <div
+          class="modal-dialog-header"
+        >
+          <h2
+            class="section-title"
+          >
+            Border Radius
+          </h2>
+          <div
+            aria-label="Close"
+            class="icon-button"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="icon icon--close"
+            />
+          </div>
+        </div>
+        <div
+          class="modal-dialog-body"
+        >
+          <form>
+            <div
+              class="input mb-sm form-group"
+            >
+              <input
+                class="input__field"
+                id="name"
+                placeholder="border-radius-base"
+                type="text"
+                value=""
+              />
+              <p
+                class="visibility-hidden"
+              />
+            </div>
+            <div
+              class="input mb-sm form-group"
+            >
+              <input
+                class="input__field"
+                id="value"
+                maxlength="6"
+                placeholder="4"
+                type="text"
+                value=""
+              />
+              <p
+                class="visibility-hidden"
+              />
+            </div>
+            <div
+              class="d-flex justify-content-end"
+            >
+              <button
+                class="button button--primary"
+                type="submit"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </section>
 </DocumentFragment>
 `;
@@ -142,6 +215,79 @@ exports[`BorderRadiusTokens snapshot with color tokens 1`] = `
               class="icon icon--trash"
             />
           </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class=""
+      id="modal"
+    >
+      <div
+        class="modal-dialog"
+      >
+        <div
+          class="modal-dialog-header"
+        >
+          <h2
+            class="section-title"
+          >
+            Border Radius
+          </h2>
+          <div
+            aria-label="Close"
+            class="icon-button"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="icon icon--close"
+            />
+          </div>
+        </div>
+        <div
+          class="modal-dialog-body"
+        >
+          <form>
+            <div
+              class="input mb-sm form-group"
+            >
+              <input
+                class="input__field"
+                id="name"
+                placeholder="border-radius-base"
+                type="text"
+                value=""
+              />
+              <p
+                class="visibility-hidden"
+              />
+            </div>
+            <div
+              class="input mb-sm form-group"
+            >
+              <input
+                class="input__field"
+                id="value"
+                maxlength="6"
+                placeholder="4"
+                type="text"
+                value=""
+              />
+              <p
+                class="visibility-hidden"
+              />
+            </div>
+            <div
+              class="d-flex justify-content-end"
+            >
+              <button
+                class="button button--primary"
+                type="submit"
+              >
+                Save
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

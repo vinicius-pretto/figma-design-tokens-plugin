@@ -1,15 +1,64 @@
 import * as React from "react";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { v4 as uuid } from "uuid";
 import _isEmpty from "lodash/isEmpty";
 import BorderRadiusToken from "./BorderRadiusToken";
 import TokenType from "../../../../consts/TokenType";
 import Token from "../../../../consts/Token";
+import validationSchema from "./validationSchema";
+import BorderRadiusForm from "./BorderRadiusForm";
+import { storeTokens } from "../../../redux/actions";
 
 const BorderRadiusTokens = ({ tokens, onDelete }) => {
   const borderRadiusTokens = tokens.filter(
     (token: Token) => token.type === TokenType.BORDER_RADIUS
   );
+  const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [tokenSelected, setTokenSelected] = React.useState({});
+  const initialValues = {
+    name: "",
+    value: "",
+  };
 
-  const onCreate = () => {};
+  const onSubmit = (values) => {
+    const token = {
+      id: uuid(),
+      type: TokenType.BORDER_RADIUS,
+      name: values.name,
+      value: values.value,
+    };
+    const tokensUpdated = tokens.concat(token);
+
+    onCloseModal();
+    clearFields();
+    dispatch(storeTokens(tokensUpdated));
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
+
+  const clearFields = () => {
+    setTokenSelected({});
+    formik.resetForm();
+  };
+
+  const onCreate = () => {
+    clearFields();
+    onOpenModal();
+  };
+
+  const onOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <section className="border-bottom p-sm">
@@ -42,6 +91,12 @@ const BorderRadiusTokens = ({ tokens, onDelete }) => {
           ))}
         </div>
       )}
+
+      <BorderRadiusForm
+        isModalOpen={isModalOpen}
+        onCloseModal={onCloseModal}
+        formik={formik}
+      />
     </section>
   );
 };
