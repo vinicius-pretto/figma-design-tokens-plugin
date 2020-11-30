@@ -13,7 +13,7 @@ jest.mock("../messages/tokenMessenger", () => {
     postGetTokensMessage: jest.fn(),
     postSetTokensMessage: jest.fn(),
     postUpdateColorTokenMessage: jest.fn(),
-    postDeleteColorTokenMessage: jest.fn(),
+    postDeleteTokenMessage: jest.fn(),
   };
 });
 
@@ -77,8 +77,8 @@ describe("App", () => {
     userEvent.hover(screen.getByText("color-yellow"));
     await waitFor(() => userEvent.click(deleteButton));
 
-    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledTimes(1);
-    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledWith(
+    expect(tokenMessenger.postDeleteTokenMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postDeleteTokenMessage).toHaveBeenCalledWith(
       "757e0617-d68f-498c-af84-99579f0783d4"
     );
     expect(tokenMessenger.postGetTokensMessage).toHaveBeenCalledTimes(2);
@@ -99,8 +99,8 @@ describe("App", () => {
     userEvent.hover(screen.getByText("font-size-base"));
     await waitFor(() => userEvent.click(deleteButton));
 
-    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledTimes(1);
-    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledWith(
+    expect(tokenMessenger.postDeleteTokenMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postDeleteTokenMessage).toHaveBeenCalledWith(
       "6552cefb-8e70-43ba-b6c7-432a8b8aa591"
     );
     expect(tokenMessenger.postGetTokensMessage).toHaveBeenCalledTimes(2);
@@ -121,8 +121,8 @@ describe("App", () => {
     userEvent.hover(screen.getByText("border-radius-base"));
     await waitFor(() => userEvent.click(deleteButton));
 
-    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledTimes(1);
-    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledWith(
+    expect(tokenMessenger.postDeleteTokenMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postDeleteTokenMessage).toHaveBeenCalledWith(
       "2c679ec4-f439-4044-a4c3-fc5275e66af2"
     );
     expect(tokenMessenger.postGetTokensMessage).toHaveBeenCalledTimes(2);

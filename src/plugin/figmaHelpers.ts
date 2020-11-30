@@ -16,7 +16,22 @@ function findAllNodesByTokenId(tokenId) {
   });
 }
 
+function getAllTokens() {
+  try {
+    const tokens = JSON.parse(figma.root.getPluginData("tokens"));
+    return tokens;
+  } catch {
+    return [];
+  }
+}
+
+function setAllTokens(tokens: Token[]) {
+  figma.root.setPluginData("tokens", JSON.stringify(tokens));
+}
+
 export default {
   getNodeTokens,
   findAllNodesByTokenId,
+  getAllTokens,
+  setAllTokens,
 };

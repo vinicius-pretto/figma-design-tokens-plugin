@@ -25,7 +25,7 @@ const App = () => {
   }, []);
 
   const onDeleteToken = (tokenId: string) => {
-    tokenMessenger.postDeleteColorTokenMessage(tokenId);
+    tokenMessenger.postDeleteTokenMessage(tokenId);
     tokenMessenger.postGetTokensMessage();
   };
 
