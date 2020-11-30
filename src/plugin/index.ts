@@ -36,7 +36,7 @@ async function setFontSizeToken(node: any, token: Token) {
 }
 
 async function setBorderRadiusToken(node: any, token: Token) {
-  if (node.cornerRadius) {
+  if (typeof node.cornerRadius === "number") {
     const tokens = JSON.stringify([token]);
     node.setPluginData("tokens", tokens);
     node.cornerRadius = Number(token.value);
