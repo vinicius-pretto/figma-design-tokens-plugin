@@ -1,14 +1,21 @@
 import * as React from "react";
+import _ from "lodash";
 import userEvent from "@testing-library/user-event";
+import { fireEvent } from "@testing-library/dom";
 import { render, screen, waitFor } from "../../../../testUtils";
 import FontSizeTokens from "./FontSizeTokens";
 import tokens from "../../../../testData/tokens";
 import tokenMessenger from "../../../messages/tokenMessenger";
 import TokenType from "../../../../consts/TokenType";
+import EventType from "../../../../consts/EventType";
 
 jest.mock("../../../messages/tokenMessenger");
 
 describe("FontSizeTokens", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe("snapshot", () => {
     it("no color tokens", () => {
       const { asFragment } = render(
@@ -86,6 +93,55 @@ describe("FontSizeTokens", () => {
           },
         ]);
       });
+    });
+  });
+
+  it("update token", async () => {
+    render(<FontSizeTokens tokens={tokens} onDelete={jest.fn()} />);
+
+    const editButton = screen.getByRole("button", {
+      name: /edit font-size-base/i,
+    });
+
+    userEvent.hover(screen.getByText("font-size-base"));
+    await waitFor(() => userEvent.click(editButton));
+
+    const inputName = screen.getByPlaceholderText("font-size-base");
+    const inputValue = screen.getByPlaceholderText("16");
+    const submitButton = screen.getByRole("button", { name: /save/i });
+
+    expect(inputName).toHaveValue("font-size-base");
+    expect(inputValue).toHaveValue("16");
+
+    await waitFor(() =>
+      fireEvent.change(inputName, { target: { value: "font-size-md" } })
+    );
+    await waitFor(() =>
+      fireEvent.change(inputValue, { target: { value: "18" } })
+    );
+    await waitFor(() => userEvent.click(submitButton));
+
+    const tokensCopy = _.cloneDeep(tokens);
+    const index = _.findIndex(tokensCopy, [
+      "id",
+      "6552cefb-8e70-43ba-b6c7-432a8b8aa591",
+    ]);
+    const tokenUpdated = {
+      id: "6552cefb-8e70-43ba-b6c7-432a8b8aa591",
+      type: TokenType.FONT_SIZE,
+      name: "font-size-md",
+      value: "18",
+    };
+    tokensCopy.splice(index, 1, tokenUpdated);
+
+    expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledWith(
+      tokensCopy
+    );
+    expect(tokenMessenger.postMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postMessage).toHaveBeenCalledWith({
+      type: EventType.UPDATE_FONT_SIZE_TOKEN,
+      payload: tokenUpdated,
     });
   });
 });

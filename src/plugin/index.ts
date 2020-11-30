@@ -60,6 +60,13 @@ function getAllTokens() {
   }
 }
 
+function findAllNodesByTokenId(tokenId) {
+  return figma.currentPage.findAll((node: BaseNode) => {
+    const tokens = getNodeTokens(node);
+    return tokens.some((token: Token) => token.id === tokenId);
+  });
+}
+
 figma.ui.onmessage = (msg) => {
   if (msg.type === EventType.GET_TOKENS) {
     figma.ui.postMessage({
@@ -68,22 +75,20 @@ figma.ui.onmessage = (msg) => {
     });
     return;
   }
+
   if (msg.type === EventType.SET_TOKENS) {
     figma.root.setPluginData("tokens", JSON.stringify(msg.tokens));
     return;
   }
+
+  // Colors
   if (msg.type === EventType.SET_COLOR_TOKEN) {
     figma.currentPage.selection.forEach((node: any) => {
       setColorToken(node, msg.token);
     });
     return;
   }
-  if (msg.type === EventType.SET_FONT_SIZE_TOKEN) {
-    figma.currentPage.selection.forEach((node: any) => {
-      setFontSizeToken(node, msg.payload);
-    });
-    return;
-  }
+
   if (msg.type === EventType.UPDATE_COLOR_TOKEN) {
     const nodes = figma.currentPage.findAll((node: BaseNode) => {
       const tokens = getNodeTokens(node);
@@ -95,6 +100,25 @@ figma.ui.onmessage = (msg) => {
 
     return;
   }
+
+  // Font Size
+  if (msg.type === EventType.SET_FONT_SIZE_TOKEN) {
+    figma.currentPage.selection.forEach((node: any) => {
+      setFontSizeToken(node, msg.payload);
+    });
+    return;
+  }
+
+  if (msg.type === EventType.UPDATE_FONT_SIZE_TOKEN) {
+    const nodes = findAllNodesByTokenId(msg.payload.id);
+
+    nodes.forEach((node: BaseNode) => {
+      setFontSizeToken(node, msg.payload);
+    });
+
+    return;
+  }
+
   if (msg.type === EventType.DELETE_COLOR_TOKEN) {
     const nodes = figma.currentPage.findAll((node: BaseNode) => {
       const tokens = getNodeTokens(node);

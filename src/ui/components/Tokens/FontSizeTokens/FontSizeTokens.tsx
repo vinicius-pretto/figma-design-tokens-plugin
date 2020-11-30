@@ -1,5 +1,7 @@
 import * as React from "react";
 import _isEmpty from "lodash/isEmpty";
+import _cloneDeep from "lodash/cloneDeep";
+import _findIndex from "lodash/findIndex";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import Token from "../../../../consts/Token";
@@ -9,6 +11,8 @@ import { useFormik } from "formik";
 import validationSchema from "./validationSchema";
 import TokenType from "../../../../consts/TokenType";
 import { storeTokens } from "../../../redux/actions";
+import tokenMessenger from "../../../messages/tokenMessenger";
+import EventType from "../../../../consts/EventType";
 
 const FontSizeTokens = ({ tokens, onDelete }) => {
   const fontSizeTokens = tokens.filter(
@@ -23,6 +27,15 @@ const FontSizeTokens = ({ tokens, onDelete }) => {
   };
 
   const onSubmit = (values) => {
+    if (!_isEmpty(tokenSelected)) {
+      const tokenUpdated = {
+        ...tokenSelected,
+        name: values.name,
+        value: values.value,
+      };
+      updateToken(tokenUpdated);
+      return;
+    }
     const token = {
       id: uuid(),
       type: TokenType.FONT_SIZE,
@@ -50,6 +63,27 @@ const FontSizeTokens = ({ tokens, onDelete }) => {
   const onCreate = () => {
     clearFields();
     onOpenModal();
+  };
+
+  const onUpdateToken = (token: Token) => {
+    const values = { name: token.name, value: token.value };
+    onOpenModal();
+    formik.setValues(values);
+    setTokenSelected(token);
+  };
+
+  const updateToken = (token) => {
+    const tokensCopy = _cloneDeep(tokens);
+    const index = _findIndex(tokensCopy, ["id", token.id]);
+    tokensCopy.splice(index, 1, token);
+
+    dispatch(storeTokens(tokensCopy));
+    clearFields();
+    onCloseModal();
+    tokenMessenger.postMessage({
+      type: EventType.UPDATE_FONT_SIZE_TOKEN,
+      payload: token,
+    });
   };
 
   const onOpenModal = () => {
@@ -82,7 +116,12 @@ const FontSizeTokens = ({ tokens, onDelete }) => {
       ) : (
         <div className="d-flex flex-row flex-wrap">
           {fontSizeTokens.map((token: Token) => (
-            <FontSizeToken key={token.id} token={token} onDelete={onDelete} />
+            <FontSizeToken
+              key={token.id}
+              token={token}
+              onUpdate={onUpdateToken}
+              onDelete={onDelete}
+            />
           ))}
         </div>
       )}

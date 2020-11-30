@@ -2,9 +2,7 @@ import * as React from "react";
 import EventType from "../../../../consts/EventType";
 import tokenMessenger from "../../../messages/tokenMessenger";
 
-const FontSizeToken = ({ token, onDelete }) => {
-  const onUpdate = (token) => {};
-
+const FontSizeToken = ({ token, onUpdate, onDelete }) => {
   const setTokenStyle = () => {
     tokenMessenger.postMessage({
       type: EventType.SET_FONT_SIZE_TOKEN,
