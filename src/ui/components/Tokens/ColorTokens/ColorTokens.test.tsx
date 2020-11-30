@@ -125,6 +125,8 @@ describe("ColorTokens", () => {
       tokens[1],
       tokens[2],
       tokens[3],
+      tokens[4],
+      tokens[5],
     ]);
     expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledTimes(1);
     expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledWith({

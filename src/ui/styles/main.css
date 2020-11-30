@@ -97,6 +97,17 @@ a {
   font-size: 18px;
 }
 
+.border-radius-shape {
+  width: 30;
+  height: 18px;
+  display: inline-block;
+  background-color: transparent;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: var(--color-dark);
+  line-height: 1.5;
+}
+
 .highlight {
   margin: 0;
   padding: var(--spacing-md);

@@ -25,6 +25,18 @@ const tokens = [
     name: "font-size-lg",
     value: "42",
   },
+  {
+    id: "2c679ec4-f439-4044-a4c3-fc5275e66af2",
+    type: TokenType.BORDER_RADIUS,
+    name: "border-radius-base",
+    value: "4",
+  },
+  {
+    id: "1e9fcdeb-8185-4b1a-8b2d-a0c277da5ca5",
+    type: TokenType.BORDER_RADIUS,
+    name: "border-radius-circle",
+    value: "50",
+  },
 ];
 
 export default tokens;
