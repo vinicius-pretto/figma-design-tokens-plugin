@@ -3,12 +3,16 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
 import _isEmpty from "lodash/isEmpty";
+import _cloneDeep from "lodash/cloneDeep";
+import _findIndex from "lodash/findIndex";
 import BorderRadiusToken from "./BorderRadiusToken";
 import TokenType from "../../../../consts/TokenType";
 import Token from "../../../../consts/Token";
 import validationSchema from "./validationSchema";
 import BorderRadiusForm from "./BorderRadiusForm";
 import { storeTokens } from "../../../redux/actions";
+import tokenMessenger from "../../../messages/tokenMessenger";
+import EventType from "../../../../consts/EventType";
 
 const BorderRadiusTokens = ({ tokens, onDelete }) => {
   const borderRadiusTokens = tokens.filter(
@@ -23,6 +27,15 @@ const BorderRadiusTokens = ({ tokens, onDelete }) => {
   };
 
   const onSubmit = (values) => {
+    if (!_isEmpty(tokenSelected)) {
+      const tokenUpdated = {
+        ...tokenSelected,
+        name: values.name,
+        value: values.value,
+      };
+      updateToken(tokenUpdated);
+      return;
+    }
     const token = {
       id: uuid(),
       type: TokenType.BORDER_RADIUS,
@@ -50,6 +63,27 @@ const BorderRadiusTokens = ({ tokens, onDelete }) => {
   const onCreate = () => {
     clearFields();
     onOpenModal();
+  };
+
+  const onUpdateToken = (token: Token) => {
+    const values = { name: token.name, value: token.value };
+    onOpenModal();
+    formik.setValues(values);
+    setTokenSelected(token);
+  };
+
+  const updateToken = (token) => {
+    const tokensCopy = _cloneDeep(tokens);
+    const index = _findIndex(tokensCopy, ["id", token.id]);
+    tokensCopy.splice(index, 1, token);
+
+    dispatch(storeTokens(tokensCopy));
+    clearFields();
+    onCloseModal();
+    tokenMessenger.postMessage({
+      type: EventType.UPDATE_BORDER_RADIUS_TOKEN,
+      payload: token,
+    });
   };
 
   const onOpenModal = () => {
@@ -85,8 +119,8 @@ const BorderRadiusTokens = ({ tokens, onDelete }) => {
             <BorderRadiusToken
               key={token.id}
               token={token}
-              onUpdate={() => {}}
-              onDelete={() => {}}
+              onUpdate={onUpdateToken}
+              onDelete={onDelete}
             />
           ))}
         </div>

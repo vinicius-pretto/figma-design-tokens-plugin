@@ -1,7 +1,14 @@
 import * as React from "react";
+import EventType from "../../../../consts/EventType";
+import tokenMessenger from "../../../messages/tokenMessenger";
 
 const BorderRadiusToken = ({ token, onUpdate, onDelete }) => {
-  const setTokenStyle = () => {};
+  const setTokenStyle = () => {
+    tokenMessenger.postMessage({
+      type: EventType.SET_BORDER_RADIUS_TOKEN,
+      payload: token,
+    });
+  };
 
   return (
     <div

@@ -35,6 +35,14 @@ async function setFontSizeToken(node: any, token: Token) {
   }
 }
 
+async function setBorderRadiusToken(node: any, token: Token) {
+  if (node.cornerRadius) {
+    const tokens = JSON.stringify([token]);
+    node.setPluginData("tokens", tokens);
+    node.cornerRadius = Number(token.value);
+  }
+}
+
 function setNodeTokens(node: BaseNode, tokens: any) {
   node.setPluginData("tokens", JSON.stringify(tokens));
 }
@@ -99,6 +107,24 @@ figma.ui.onmessage = (msg) => {
 
     nodes.forEach((node: BaseNode) => {
       setFontSizeToken(node, msg.payload);
+    });
+
+    return;
+  }
+
+  // Border Radius
+  if (msg.type === EventType.SET_BORDER_RADIUS_TOKEN) {
+    figma.currentPage.selection.forEach((node: any) => {
+      setBorderRadiusToken(node, msg.payload);
+    });
+    return;
+  }
+
+  if (msg.type === EventType.UPDATE_BORDER_RADIUS_TOKEN) {
+    const nodes = figmaHelpers.findAllNodesByTokenId(msg.payload.id);
+
+    nodes.forEach((node: BaseNode) => {
+      setBorderRadiusToken(node, msg.payload);
     });
 
     return;

@@ -1,14 +1,21 @@
 import * as React from "react";
+import _ from "lodash";
 import userEvent from "@testing-library/user-event";
+import { fireEvent } from "@testing-library/dom";
 import { render, screen, waitFor } from "../../../../testUtils";
 import BorderRadiusTokens from "./BorderRadiusTokens";
 import tokens from "../../../../testData/tokens";
 import tokenMessenger from "../../../messages/tokenMessenger";
 import TokenType from "../../../../consts/TokenType";
+import EventType from "../../../../consts/EventType";
 
 jest.mock("../../../messages/tokenMessenger");
 
 describe("BorderRadiusTokens", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe("snapshot", () => {
     it("no color tokens", () => {
       const { asFragment } = render(
@@ -86,6 +93,55 @@ describe("BorderRadiusTokens", () => {
           },
         ]);
       });
+    });
+  });
+
+  it("update token", async () => {
+    render(<BorderRadiusTokens tokens={tokens} onDelete={jest.fn()} />);
+
+    const editButton = screen.getByRole("button", {
+      name: /edit border-radius-base/i,
+    });
+
+    userEvent.hover(screen.getByText("border-radius-base"));
+    await waitFor(() => userEvent.click(editButton));
+
+    const inputName = screen.getByPlaceholderText("border-radius-base");
+    const inputValue = screen.getByPlaceholderText("4");
+    const submitButton = screen.getByRole("button", { name: /save/i });
+
+    expect(inputName).toHaveValue("border-radius-base");
+    expect(inputValue).toHaveValue("4");
+
+    await waitFor(() =>
+      fireEvent.change(inputName, { target: { value: "border-radius-md" } })
+    );
+    await waitFor(() =>
+      fireEvent.change(inputValue, { target: { value: "6" } })
+    );
+    await waitFor(() => userEvent.click(submitButton));
+
+    const tokensCopy = _.cloneDeep(tokens);
+    const index = _.findIndex(tokensCopy, [
+      "id",
+      "2c679ec4-f439-4044-a4c3-fc5275e66af2",
+    ]);
+    const tokenUpdated = {
+      id: "2c679ec4-f439-4044-a4c3-fc5275e66af2",
+      type: TokenType.BORDER_RADIUS,
+      name: "border-radius-md",
+      value: "6",
+    };
+    tokensCopy.splice(index, 1, tokenUpdated);
+
+    expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledWith(
+      tokensCopy
+    );
+    expect(tokenMessenger.postMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postMessage).toHaveBeenCalledWith({
+      type: EventType.UPDATE_BORDER_RADIUS_TOKEN,
+      payload: tokenUpdated,
     });
   });
 });

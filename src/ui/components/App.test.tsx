@@ -105,4 +105,26 @@ describe("App", () => {
     );
     expect(tokenMessenger.postGetTokensMessage).toHaveBeenCalledTimes(2);
   });
+
+  it("delete border radius token", async () => {
+    render(<App />);
+
+    postMessage({
+      type: UiEventType.GET_TOKENS,
+      values: tokens,
+    });
+
+    const deleteButton = screen.getByRole("button", {
+      name: /delete border-radius-base/i,
+    });
+
+    userEvent.hover(screen.getByText("border-radius-base"));
+    await waitFor(() => userEvent.click(deleteButton));
+
+    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledTimes(1);
+    expect(tokenMessenger.postDeleteColorTokenMessage).toHaveBeenCalledWith(
+      "2c679ec4-f439-4044-a4c3-fc5275e66af2"
+    );
+    expect(tokenMessenger.postGetTokensMessage).toHaveBeenCalledTimes(2);
+  });
 });
