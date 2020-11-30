@@ -7,14 +7,7 @@ import tokenMessenger from "../../../messages/tokenMessenger";
 import TokenType from "../../../../consts/TokenType";
 import tokens from "../../../../testData/tokens";
 
-jest.mock("../../../messages/tokenMessenger", () => {
-  return {
-    postGetTokensMessage: jest.fn(),
-    postSetTokensMessage: jest.fn(),
-    postUpdateColorTokenMessage: jest.fn(),
-    postDeleteColorTokenMessage: jest.fn(),
-  };
-});
+jest.mock("../../../messages/tokenMessenger");
 
 describe("ColorTokens", () => {
   afterEach(() => {
@@ -130,6 +123,8 @@ describe("ColorTokens", () => {
     expect(tokenMessenger.postSetTokensMessage).toHaveBeenCalledWith([
       { ...tokens[0], name: "color-white", value: "#FFFFFF" },
       tokens[1],
+      tokens[2],
+      tokens[3],
     ]);
     expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledTimes(1);
     expect(tokenMessenger.postUpdateColorTokenMessage).toHaveBeenCalledWith({

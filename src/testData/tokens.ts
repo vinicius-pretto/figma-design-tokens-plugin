@@ -13,6 +13,18 @@ const tokens = [
     name: "color-yellow",
     value: "#ccc000",
   },
+  {
+    id: "6552cefb-8e70-43ba-b6c7-432a8b8aa591",
+    type: TokenType.FONT_SIZE,
+    name: "font-size-base",
+    value: "16",
+  },
+  {
+    id: "b60962ee-bac7-4311-898d-65d926e0dba7",
+    type: TokenType.FONT_SIZE,
+    name: "font-size-lg",
+    value: "42",
+  },
 ];
 
 export default tokens;

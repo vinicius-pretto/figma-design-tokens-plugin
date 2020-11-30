@@ -41,7 +41,7 @@ describe("App", () => {
       userEvent.click(screen.getByText("CSS"));
 
       expect(screen.getByTestId("tokens")).toHaveTextContent(
-        ":root { --color-dark: #222222; --color-yellow: #ccc000; }"
+        ":root { --color-dark: #222222; --color-yellow: #ccc000; --font-size-base: 16; --font-size-lg: 42; }"
       );
     });
 
@@ -49,7 +49,7 @@ describe("App", () => {
       userEvent.click(screen.getByText("SCSS"));
 
       expect(screen.getByTestId("tokens")).toHaveTextContent(
-        "$color-dark: #222222; $color-yellow: #ccc000;"
+        "$color-dark: #222222; $color-yellow: #ccc000; $font-size-base: 16; $font-size-lg: 42;"
       );
     });
 
@@ -57,7 +57,7 @@ describe("App", () => {
       userEvent.click(screen.getByText("JSON"));
 
       expect(screen.getByTestId("tokens")).toHaveTextContent(
-        '"color-dark": "#222222", "color-yellow": "#ccc000" }'
+        '{ "color-dark": "#222222", "color-yellow": "#ccc000", "font-size-base": "16", "font-size-lg": "42" }'
       );
     });
   });
