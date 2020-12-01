@@ -47,9 +47,7 @@ const handleEvents = (msg) => {
 
     // Colors
     case EventType.SET_COLOR_TOKEN:
-      figma.currentPage.selection.forEach((node: any) => {
-        colorToken.setToken(node, msg.token);
-      });
+      colorToken.setToken(msg.token);
       return;
 
     case EventType.UPDATE_COLOR_TOKEN:
@@ -58,20 +56,16 @@ const handleEvents = (msg) => {
 
     // Font Sizes
     case EventType.SET_FONT_SIZE_TOKEN:
-      figma.currentPage.selection.forEach((node: any) => {
-        fontSizeToken.setToken(node, msg.payload);
-      });
+      fontSizeToken.setToken(msg.payload);
       return;
 
     case EventType.UPDATE_FONT_SIZE_TOKEN:
-      fontSizeToken.updateToken(msg.token);
+      fontSizeToken.updateToken(msg.payload);
       return;
 
     // Border Radius
     case EventType.SET_BORDER_RADIUS_TOKEN:
-      figma.currentPage.selection.forEach((node: any) => {
-        borderRadiusToken.setToken(node, msg.payload);
-      });
+      borderRadiusToken.setToken(msg.payload);
       return;
 
     case EventType.UPDATE_BORDER_RADIUS_TOKEN:

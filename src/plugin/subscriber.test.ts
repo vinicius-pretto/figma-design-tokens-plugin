@@ -106,7 +106,7 @@ describe("subscriber", () => {
     subscriber.handleEvents(message);
 
     expect(colorToken.setToken).toHaveBeenCalledTimes(1);
-    expect(colorToken.setToken).toHaveBeenCalledWith(node, tokenColor);
+    expect(colorToken.setToken).toHaveBeenCalledWith(tokenColor);
   });
 
   it(`eventType "${EventType.UPDATE_COLOR_TOKEN}"`, () => {
@@ -136,7 +136,7 @@ describe("subscriber", () => {
     subscriber.handleEvents(message);
 
     expect(fontSizeToken.setToken).toHaveBeenCalledTimes(1);
-    expect(fontSizeToken.setToken).toHaveBeenCalledWith(node, token);
+    expect(fontSizeToken.setToken).toHaveBeenCalledWith(token);
   });
 
   it(`eventType "${EventType.UPDATE_FONT_SIZE_TOKEN}"`, () => {
@@ -171,7 +171,7 @@ describe("subscriber", () => {
     subscriber.handleEvents(message);
 
     expect(borderRadiusToken.setToken).toHaveBeenCalledTimes(1);
-    expect(borderRadiusToken.setToken).toHaveBeenCalledWith(node, token);
+    expect(borderRadiusToken.setToken).toHaveBeenCalledWith(token);
   });
 
   it(`eventType: "${EventType.UPDATE_BORDER_RADIUS_TOKEN}"`, () => {

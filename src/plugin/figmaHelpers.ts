@@ -9,6 +9,14 @@ function getNodeTokens(node: BaseNode): Array<object> {
   }
 }
 
+function setNodeToken(node: BaseNode, token: Token) {
+  const tokens = getNodeTokens(node)
+    .filter((t: Token) => t.id !== token.id)
+    .concat(token);
+
+  node.setPluginData("tokens", JSON.stringify(tokens));
+}
+
 function findAllNodesByTokenId(tokenId) {
   return figma.currentPage.findAll((node: BaseNode) => {
     const tokens = getNodeTokens(node);
@@ -31,6 +39,7 @@ function setAllTokens(tokens: Token[]) {
 
 export default {
   getNodeTokens,
+  setNodeToken,
   findAllNodesByTokenId,
   getAllTokens,
   setAllTokens,
