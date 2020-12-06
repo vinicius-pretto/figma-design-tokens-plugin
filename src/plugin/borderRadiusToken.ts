@@ -10,6 +10,24 @@ const setNodeToken = (node: any, token: Token) => {
     figmaHelpers.setNodeToken(node, token);
     node.cornerRadius = Number(token.value);
   }
+  if (typeof node.cornerRadius === "symbol") {
+    if (node.topLeftRadius > 0) {
+      figmaHelpers.setNodeToken(node, token);
+      node.topLeftRadius = Number(token.value);
+    }
+    if (node.topRightRadius > 0) {
+      figmaHelpers.setNodeToken(node, token);
+      node.topRightRadius = Number(token.value);
+    }
+    if (node.bottomLeftRadius > 0) {
+      figmaHelpers.setNodeToken(node, token);
+      node.bottomLeftRadius = Number(token.value);
+    }
+    if (node.bottomRightRadius > 0) {
+      figmaHelpers.setNodeToken(node, token);
+      node.bottomRightRadius = Number(token.value);
+    }
+  }
 };
 
 const setToken = (token: Token) => {
